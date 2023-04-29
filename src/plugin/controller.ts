@@ -1,26 +1,21 @@
+import { createHTML } from './converter/createHTML';
+import { MessageType } from './types';
+
 figma.showUI(__html__);
 
-figma.ui.onmessage = (msg) => {
-  if (msg.type === 'create-rectangles') {
-    const nodes = [];
+figma.ui.resize(512, 512);
 
-    for (let i = 0; i < msg.count; i++) {
-      const rect = figma.createRectangle();
-      rect.x = i * 150;
-      rect.fills = [{ type: 'SOLID', color: { r: 1, g: 0.5, b: 0 } }];
-      figma.currentPage.appendChild(rect);
-      nodes.push(rect);
-    }
+export let imageHashBytesList: Record<string, Uint8Array> = {};
+figma.ui.onmessage = async (msg) => {
+  if (msg.type === MessageType.CREATE_RECTANGLES) {
+    const nodes = figma.currentPage.selection;
+    const node = nodes[0];
 
-    figma.currentPage.selection = nodes;
-    figma.viewport.scrollAndZoomIntoView(nodes);
+    const res = await createHTML(node);
 
-    // This is how figma responds back to the ui
     figma.ui.postMessage({
-      type: 'create-rectangles',
-      message: `Created ${msg.count} Rectangles`,
+      type: MessageType.CREATE_RECTANGLES,
+      message: res,
     });
   }
-
-  figma.closePlugin();
 };
