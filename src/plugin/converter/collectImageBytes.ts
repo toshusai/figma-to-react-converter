@@ -1,4 +1,4 @@
-import { imageHashMap } from './CSSProperties/paintToStyle';
+import { imageHashMap } from './CSSProperties/getBackgroundColor';
 import { imageHashBytesList } from '../controller';
 
 export async function collectImageBytes() {

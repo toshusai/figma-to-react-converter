@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-export function parseHeight(node: SceneNode): CSSProperties {
+export function getHeight(node: SceneNode): CSSProperties {
   if (node.type === 'TEXT') return {};
   if (node.type === 'RECTANGLE') {
     return {

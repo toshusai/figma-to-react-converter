@@ -1,14 +1,14 @@
 import { CSSProperties } from 'react';
 import {
-  parseBackgroundColor,
-  parseBorderRadius,
-  parseColor,
-  parseFlex,
-  parseHeight,
-  parseOverflow,
-  parsePadding,
-  parsePosition,
-  parseWidth,
+  getBackgroundColor,
+  getBorderRadius,
+  getColor,
+  getFlex,
+  getHeight,
+  getOverflow,
+  getPadding,
+  getPosition,
+  getWidth,
 } from './CSSProperties';
 import { isMixed } from '../utils';
 
@@ -28,23 +28,15 @@ export function nodeToCSSProperties(node: SceneNode): CSSProperties {
     }
     styles = {
       ...styles,
-      ...parseBackgroundColor(node),
-      ...parseFlex(node as FrameNode | InstanceNode),
-      ...parseWidth(node as FrameNode | InstanceNode),
-      ...parseHeight(node as FrameNode | InstanceNode),
-      ...parsePadding(node as FrameNode | InstanceNode),
-      ...parsePosition(
-        node.layoutPositioning,
-        node.constraints,
-        node.x,
-        node.y,
-        node.width,
-        node.height,
-        node.parent as FrameNode | InstanceNode
-      ),
-      ...parseBorderRadius(node),
-      ...parseOverflow(node),
-      ...parseColor(node),
+      ...getBackgroundColor(node),
+      ...getFlex(node as FrameNode | InstanceNode),
+      ...getWidth(node as FrameNode | InstanceNode),
+      ...getHeight(node as FrameNode | InstanceNode),
+      ...getPadding(node as FrameNode | InstanceNode),
+      ...getPosition(node),
+      ...getBorderRadius(node),
+      ...getOverflow(node),
+      ...getColor(node),
     };
   }
   return styles;

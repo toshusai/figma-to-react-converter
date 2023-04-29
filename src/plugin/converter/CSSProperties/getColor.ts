@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { isMixed, rgbColorToHex } from '../../utils';
 
-export function parseColor(node: SceneNode): CSSProperties {
+export function getColor(node: SceneNode): CSSProperties {
   if (node.type === 'TEXT') {
     if (isMixed(node.fills)) return {};
     if (node.fills.length > 0) {

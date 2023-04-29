@@ -4,7 +4,7 @@ import { isMixed } from '../../utils/types/isMixed';
 
 export const imageHashMap = new Map<string, string | null>();
 
-export function parseBackgroundColor(node: SceneNode): CSSProperties {
+export function getBackgroundColor(node: SceneNode): CSSProperties {
   if (node.type === 'TEXT') {
     return {};
   }

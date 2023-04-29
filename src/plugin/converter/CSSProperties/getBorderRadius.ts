@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { isCornerMixin, isRectangleCornerMixin } from '../../utils';
 
-export function parseBorderRadius(node: SceneNode): CSSProperties {
+export function getBorderRadius(node: SceneNode): CSSProperties {
   if (isCornerMixin(node)) {
     if (typeof node.cornerRadius !== 'number') return {};
     return {

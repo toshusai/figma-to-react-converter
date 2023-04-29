@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-export function parsePadding(node: FrameNode | InstanceNode | RectangleNode | TextNode): CSSProperties {
+export function getPadding(node: FrameNode | InstanceNode | RectangleNode | TextNode): CSSProperties {
   if (node.type === 'TEXT') return {};
   if (node.type === 'RECTANGLE') return {};
   if (

@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-export function parseWidth(node: SceneNode): CSSProperties {
+export function getWidth(node: SceneNode): CSSProperties {
   if (node.type === 'TEXT') return {};
   if (node.type === 'RECTANGLE') {
     return {

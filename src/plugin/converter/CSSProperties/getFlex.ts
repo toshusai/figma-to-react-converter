@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-export function parseFlex(node: FrameNode | InstanceNode): CSSProperties {
+export function getFlex(node: FrameNode | InstanceNode): CSSProperties {
   if (node.layoutMode === 'NONE') return {};
   if (node.layoutMode === 'HORIZONTAL') {
     return {
