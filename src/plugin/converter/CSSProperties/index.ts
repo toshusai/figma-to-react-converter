@@ -11,3 +11,5 @@ export * from './getLineHeight';
 export * from './getMargin';
 export * from './getBorder';
 export * from './getFontSize';
+export * from './getAlignItems';
+export * from './getJustifyContent';

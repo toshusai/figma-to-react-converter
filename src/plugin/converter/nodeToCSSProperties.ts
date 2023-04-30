@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react';
 import {
+  getAlignItems,
   getBackgroundColor,
   getBorder,
   getBorderRadius,
@@ -7,6 +8,7 @@ import {
   getFlex,
   getFontSize,
   getHeight,
+  getJustifyContent,
   getLineHighlight,
   getMargin,
   getOverflow,
@@ -47,6 +49,8 @@ export function nodeToCSSProperties(node: SceneNode): CSSProperties {
       ...getMargin(node as FrameNode | InstanceNode | RectangleNode | TextNode),
       ...getBorder(node),
       ...getFontSize(node),
+      ...getAlignItems(node as FrameNode | InstanceNode),
+      ...getJustifyContent(node as FrameNode | InstanceNode),
     };
 
     Object.keys(styles).forEach((key) => styles[key] === undefined && delete styles[key]);
