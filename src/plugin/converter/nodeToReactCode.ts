@@ -45,14 +45,14 @@ export function domToJSX(dom: Dom | string, context: Context) {
   const children = dom.children
     ?.map((c: Dom | string) => {
       if (typeof c !== 'string') {
-        if (c.meta.propsChildren) {
+        if (c.meta?.propsChildren) {
           context.props.push({
             name: c.meta.propsChildren,
             type: 'React.ReactNode',
           });
           return `{props.${c.meta.propsChildren}}`;
         }
-        if (c.meta.propsText) {
+        if (c.meta?.propsText) {
           context.props.push({
             name: c.meta.propsText,
             type: 'string',
@@ -60,7 +60,7 @@ export function domToJSX(dom: Dom | string, context: Context) {
           c.children = [`{props.${c.meta.propsText}}`];
           return domToJSX(c, context);
         }
-        if (c.meta.propsVisible) {
+        if (c.meta?.propsVisible) {
           context.props.push({
             name: c.meta.propsVisible,
             type: 'boolean',
@@ -72,7 +72,12 @@ export function domToJSX(dom: Dom | string, context: Context) {
     })
     .join('\n');
   const attrsString = Object.entries(dom.attrs)
-    .map(([key, value]) => `${key}="${value}"`)
+    .map(([key, value]) => {
+      if (key === 'class') {
+        key = 'className';
+      }
+      return `${key}="${value}"`;
+    })
     .join(' ');
   return `<${dom.tag} ${attrsString}>${children}</${dom.tag}>`;
 }

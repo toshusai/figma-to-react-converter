@@ -1,4 +1,5 @@
 import { CSSProperties } from 'react';
+import { isChildrenName } from '../nodeToDom';
 
 export function getPadding(
   node: FrameNode | InstanceNode | RectangleNode | TextNode,
@@ -9,8 +10,8 @@ export function getPadding(
   if (node.type === 'TEXT') return {};
   if (node.type === 'RECTANGLE') return {};
 
-  const notText = node.children.find((child) => child.type !== 'TEXT');
-  if (options?.isText !== true && notText === undefined) {
+  const hasText = node.children.find((child) => child.type === 'TEXT' && !isChildrenName(child.name));
+  if (options?.isText !== true && hasText !== undefined) {
     return {};
   }
   if (

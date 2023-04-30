@@ -2,6 +2,10 @@ import { Dom } from '../types';
 import { nodeToCSSProperties } from './nodeToCSSProperties';
 import { toSafeClassName } from '../utils';
 
+export function isChildrenName(name: string) {
+  return name.startsWith('props.') && name.toLowerCase().endsWith('children');
+}
+
 export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
   const dom: Dom = {
     tag: 'div',
@@ -32,11 +36,14 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
         propsVisible: node.componentPropertyReferences.visible.split('#')[0],
       };
     }
-    if (node.name.startsWith('props.') && node.name.toLowerCase().endsWith('children')) {
+    if (isChildrenName(node.name)) {
       dom.meta = {
         propsChildren: node.name.replace('props.', ''),
       };
+    } else {
+      dom.styles = nodeToCSSProperties(node);
     }
+
     if (node.type === 'TEXT') {
       dom.children = [node.characters];
     } else if (node.type === 'VECTOR') {
@@ -58,7 +65,6 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
         dom.children?.push(d as any);
       }
     }
-    dom.styles = nodeToCSSProperties(node);
   } else {
     dom.tag = 'span';
     dom.attrs['class'] = node.type;

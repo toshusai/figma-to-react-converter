@@ -13,5 +13,5 @@ export function domToString(dom: Dom | string) {
   const attrsString = Object.entries(dom.attrs)
     .map(([key, value]) => `${key}="${value}"`)
     .join(' ');
-  return `<${dom.tag} ${attrsString}>${children}</${dom.tag}>`;
+  return `<${dom.tag} ${attrsString}>\n${children}\n</${dom.tag}>`;
 }
