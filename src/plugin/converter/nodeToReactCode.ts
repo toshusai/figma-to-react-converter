@@ -9,18 +9,17 @@ type Props = {
   type: string;
 };
 
+
+
 export function nodeToReactCode(dom: Dom) {
   const context: Context = {
     props: [],
   };
   const jsx = domToJSX(dom, context);
   let src = `
+${context.props.length > 0 ? ` type Props = { ${context.props.map((p) => `${p.name}: ${p.type}`).join('\n')} } ` : ''}
 
-type Props = {
-    ${context.props.map((p) => `${p.name}: ${p.type}`).join('\n')}
-}
-
-export function Component() {
+export function Component(${context.props.length > 0 ? 'props: Props' : ''}) {
     return (
         ${jsx}
     )
@@ -32,16 +31,6 @@ export function Component() {
 
 export function domToJSX(dom: Dom | string, context: Context) {
   if (typeof dom === 'string') {
-    if (dom.startsWith(`props.`)) {
-      const propsName = dom.replace(`props.`, ``);
-      {
-        context.props.push({
-          name: propsName,
-          type: 'string',
-        });
-      }
-      return `{${dom}}`;
-    }
     return dom;
   }
   if (dom.attrs['data-type'] === 'INSTANCE') {
@@ -64,6 +53,21 @@ export function domToJSX(dom: Dom | string, context: Context) {
               return `{${firstChild}}`;
             }
           }
+        }
+        if (c.meta.propsText) {
+          context.props.push({
+            name: c.meta.propsText,
+            type: 'string',
+          });
+          c.children = [`{props.${c.meta.propsText}}`];
+          return domToJSX(c, context);
+        }
+        if (c.meta.propsVisible) {
+          context.props.push({
+            name: c.meta.propsVisible,
+            type: 'boolean',
+          });
+          return `{props.${c.meta.propsVisible} && (${domToJSX(c, context)})}`;
         }
       }
       return domToJSX(c, context);

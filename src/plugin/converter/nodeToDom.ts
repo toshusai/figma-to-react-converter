@@ -22,6 +22,16 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
       dom.attrs['data-type'] = node.type;
       dom.attrs['data-main-component'] = node.mainComponent.parent?.name ?? '';
     }
+    if (node.componentPropertyReferences?.characters) {
+      dom.meta = {
+        propsText: node.componentPropertyReferences.characters.split('#')[0],
+      };
+    }
+    if (node.componentPropertyReferences?.visible) {
+      dom.meta = {
+        propsVisible: node.componentPropertyReferences.visible.split('#')[0],
+      };
+    }
     if (node.type === 'TEXT') {
       dom.children = [node.characters];
     } else if (node.type === 'VECTOR') {
