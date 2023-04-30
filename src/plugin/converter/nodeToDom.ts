@@ -3,7 +3,7 @@ import { nodeToCSSProperties } from './nodeToCSSProperties';
 import { toSafeClassName } from '../utils';
 
 export function isChildrenName(name: string) {
-  return name.match(/^props\.[a-zA-Z0-9]*[0-9]*(c|C)hildren)$/) !== null;
+  return name.match(/^props\.[a-zA-Z0-9]*(c|C)hildren$/) !== null;
 }
 
 export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
