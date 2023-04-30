@@ -8,7 +8,7 @@ export function getWidth(node: SceneNode): CSSProperties {
     };
   }
   if (node.type !== 'INSTANCE' && node.type !== 'FRAME' && node.type !== 'COMPONENT') return {};
-  if (node.layoutGrow === 1) {
+  if (node.layoutAlign === 'STRETCH' && node.layoutMode === 'HORIZONTAL') {
     return {
       width: '100%',
     };
