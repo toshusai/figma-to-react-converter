@@ -7,7 +7,7 @@ export function isNotSupported(node: SceneNode) {
       ('paddingLeft' in node && node.paddingLeft !== 0) ||
       ('paddingRight' in node && node.paddingRight !== 0);
 
-    if (hasPadding && hasText && node.children.length > 1) {
+    if (hasPadding && hasText && node.children.length > 2) {
       console.warn(`The node ${node.name} has padding and text. This is not supported.`);
     }
   }
