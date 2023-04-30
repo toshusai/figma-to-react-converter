@@ -1,14 +1,43 @@
 body {
-  margin: 16px;
+  margin: 0;
+}
+
+pre {
+  margin: 0;
+}
+
+code {
+  font-family: Consolas, Monaco, monospace;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 button {
-  border-radius: 5px;
   background: white;
   color: black;
   border: none;
-  padding: 8px 15px;
-  margin: 0 5px;
-  box-shadow: inset 0 0 0 1px black;
+  padding: 8px 16px;
   outline: none;
+  cursor: pointer;
+}
+
+.button {
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  display: flex;
+  box-sizing: border-box;
+  border-bottom: 1px solid black;
+  background: white;
+  color: black;
+}
+
+.tab-selected {
+  border-bottom: 3px solid black;
 }

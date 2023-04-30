@@ -1,14 +1,17 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/ui.css';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/github.css';
+import 'highlight.js/styles/vs2015.css';
 
 import type prettier from 'prettier';
 import { CreateHTMLResponse } from '../../plugin/types/CreateHTMLResponse';
-import { MessageType } from '../../plugin/types';
+import { Dom, MessageType } from '../../plugin/types';
 import { cssPropertiesToCSSString, walkDom } from '../../plugin/utils';
 import { domToString } from '../../plugin/converter/domToString';
 import { nodeToReactCode } from '../../plugin/converter/nodeToReactCode';
+import { Preview } from './Preview';
+import { Code } from './Code';
+import { bytesToUrl } from '../utils/bytesToUrl';
+import { Tabs } from './Tabs';
 declare const prettierPlugins: any;
 
 function send(type: MessageType, message: any) {
@@ -29,13 +32,16 @@ function App() {
     send(MessageType.CREATE_RECTANGLES, 'Hello World!');
   };
 
-  const [css, setCss] = React.useState('');
-  const [html, setHtml] = React.useState('');
-  const [reactSrc, setReactSrc] = React.useState('');
+  const [css, setCss] = useState('');
+  const [html, setHtml] = useState('');
+  const [reactSrc, setReactSrc] = useState('');
+  const [dom, setDom] = useState<Dom | null>(null);
+  const [type, setType] = useState<'css' | 'html' | 'react' | 'preview'>('preview');
 
-  React.useEffect(() => {
+  useEffect(() => {
     addEventListener(MessageType.CREATE_RECTANGLES, async (message: CreateHTMLResponse) => {
       const dom = message.root;
+      setDom(dom);
 
       let css = '';
       walkDom(dom, (node) => {
@@ -59,7 +65,7 @@ function App() {
       setCss(css);
 
       let html = prettier.format(domToString(dom), {
-        parser: 'typescript',
+        parser: 'html',
         plugins: prettierPlugins,
       });
 
@@ -71,71 +77,72 @@ function App() {
       });
 
       setReactSrc(src);
-
-      document.getElementById('box')!.innerHTML = `<style>${css}</style>${html.replace(';', '')}`;
     });
   }, []);
 
-  const [type, setType] = React.useState<'css' | 'html' | 'react' | 'preview'>('preview');
-
   function changeType(type: 'css' | 'html' | 'react' | 'preview') {
     setType(type);
-    highlight();
   }
-  const handleChangeType = (type: string) => {
-    return () => changeType(type as any);
-  };
-
-  function highlight() {
-    hljs.highlightAll();
-  }
-  useEffect(() => {
-    highlight();
-  }, []);
 
   return (
-    <div>
-      <div>
-        <button id="create" onClick={onCreate}>
-          Create
-        </button>
-
-        <button onClick={handleChangeType('preview')}>Preview</button>
-        <button onClick={handleChangeType('css')}>CSS</button>
-        <button onClick={handleChangeType('html')}>HTML</button>
-        <button onClick={handleChangeType('react')}>React</button>
-      </div>
-      <div style={{ display: 'flex' }}>
-        <div
-          style={{
-            display: type === 'preview' ? 'block' : 'none',
-            margin: 'auto',
-          }}
-          id="box"
-        ></div>
-      </div>
-      {type === 'css' && <Code lang="css">{css}</Code>}
-      {type === 'html' && <Code lang="html">{html}</Code>}
-      {type === 'react' && <Code lang="typescript">{reactSrc}</Code>}
+    <div
+      style={{
+        display: 'flex',
+        height: '100vh',
+        flexDirection: 'column',
+      }}
+    >
+      {!dom && (
+        <>
+          <button
+            style={{
+              margin: 'auto',
+            }}
+            className="button"
+            onClick={onCreate}
+          >
+            Create
+          </button>
+        </>
+      )}
+      {dom && (
+        <>
+          <div
+            style={{
+              margin: '8px auto',
+              display: 'flex',
+              gap: '16px',
+            }}
+          >
+            <button
+              className="button"
+              onClick={() => {
+                setDom(null);
+              }}
+            >
+              Back
+            </button>
+            <Tabs
+              items={[
+                { children: 'Preview', value: 'preview' },
+                { children: 'CSS', value: 'css' },
+                { children: 'HTML', value: 'html' },
+                { children: 'React', value: 'react' },
+              ]}
+              value={type}
+              onChange={(v) => changeType(v as any)}
+            />
+          </div>
+          <div style={{ display: 'flex', height: 'calc(100% - 32px)', overflow: 'auto', backgroundColor: '#1e1e1e' }}>
+            {type === 'preview' && <Preview html={html} css={css} />}
+            {type === 'css' && <Code lang="css">{css}</Code>}
+            {type === 'html' && <Code lang="html">{html}</Code>}
+            {type === 'react' && <Code lang="typescript">{reactSrc}</Code>}
+          </div>
+        </>
+      )}
     </div>
   );
-}
-
-function Code(props: { lang: string; children: ReactNode }) {
-  useEffect(() => {
-    hljs.highlightAll();
-  }, []);
-  return (
-    <pre>
-      <code className={`language-${props.lang}`}>{props.children}</code>
-    </pre>
-  );
-}
-
-function bytesToUrl(bytes: Uint8Array) {
-  const blob = new Blob([Uint8Array.from(bytes)]);
-  const url = URL.createObjectURL(blob);
-  return url;
 }
 
 export default App;
