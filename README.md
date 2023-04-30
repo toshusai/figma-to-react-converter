@@ -4,7 +4,7 @@ Figma to React Converter is a plugin that converts components created in Figma t
 
 ## Note
 
-This project is experimental and not recommended for production use.
+This project is experimental and under development. There may be missing features or bugs, and it is not recommended for use in production.
 
 ## Supported Features
 
@@ -33,3 +33,7 @@ It does not support all components created in Figma. In order to make them conve
 - Always use AutoLayout.
 - Use only Frame, Rectangle, and Text within components.
 - When there are sibling elements to a text element, the parent element should not have padding.
+
+## License
+
+MIT
