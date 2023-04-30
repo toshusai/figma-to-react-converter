@@ -9,15 +9,19 @@ type Props = {
   type: string;
 };
 
-
-
 export function nodeToReactCode(dom: Dom) {
   const context: Context = {
     props: [],
   };
   const jsx = domToJSX(dom, context);
   let src = `
-${context.props.length > 0 ? ` type Props = { ${context.props.map((p) => `${p.name}: ${p.type}`).join('\n')} } ` : ''}
+${
+  context.props.length > 0
+    ? ` type Props = {
+    ${context.props.map((p) => `${p.name}: ${p.type}`).join('\n')}
+} `
+    : ''
+}
 
 export function Component(${context.props.length > 0 ? 'props: Props' : ''}) {
     return (
@@ -41,18 +45,12 @@ export function domToJSX(dom: Dom | string, context: Context) {
   const children = dom.children
     ?.map((c: Dom | string) => {
       if (typeof c !== 'string') {
-        const firstChild = c.children?.[0];
-        if (typeof firstChild === 'string') {
-          if (firstChild.startsWith(`props.`)) {
-            const propsName = firstChild.replace(`props.`, ``);
-            if (propsName.toLocaleLowerCase().endsWith('children')) {
-              context.props.push({
-                name: propsName,
-                type: 'React.ReactNode',
-              });
-              return `{${firstChild}}`;
-            }
-          }
+        if (c.meta.propsChildren) {
+          context.props.push({
+            name: c.meta.propsChildren,
+            type: 'React.ReactNode',
+          });
+          return `{props.${c.meta.propsChildren}}`;
         }
         if (c.meta.propsText) {
           context.props.push({

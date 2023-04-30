@@ -32,6 +32,11 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
         propsVisible: node.componentPropertyReferences.visible.split('#')[0],
       };
     }
+    if (node.name.startsWith('props.') && node.name.toLowerCase().endsWith('children')) {
+      dom.meta = {
+        propsChildren: node.name.replace('props.', ''),
+      };
+    }
     if (node.type === 'TEXT') {
       dom.children = [node.characters];
     } else if (node.type === 'VECTOR') {
