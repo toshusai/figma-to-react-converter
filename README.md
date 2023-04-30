@@ -1,23 +1,35 @@
-# Figma Plugin React Template
+# Figma to React Converter
 
-![62862431-71537f00-bd0e-11e9-85db-d97c0fb729a4](https://user-images.githubusercontent.com/16322616/62862692-46b5f600-bd0f-11e9-93b0-75955d1de8f3.png)
+Figma to React Converter is a plugin that converts components created in Figma to React components.
 
-This template contains the react example as shown on [Figma Docs](https://www.figma.com/plugin-docs/intro/), with some structural changes and extra tooling.
+## Note
 
-## Quickstart
+This project is experimental and not recommended for production use.
 
-- Run `yarn` to install dependencies.
-- Run `yarn build:watch` to start webpack in watch mode.
-- Open `Figma` -> `Plugins` -> `Development` -> `Import plugin from manifest...` and choose `manifest.json` file from this repo.
+## Supported Features
 
-⭐ To change the UI of your plugin (the react code), start editing [App.tsx](./src/app/components/App.tsx).  
-⭐ To interact with the Figma API edit [controller.ts](./src/plugin/controller.ts).  
-⭐ Read more on the [Figma API Overview](https://www.figma.com/plugin-docs/api/api-overview/).
+- Conversion to HTML and CSS
+- Conversion to React components
+- Creation of text (string) property
+- Creation of children (ReactNode) property
+- Display and non-display branching by boolean
 
-## Toolings
+## How to Use
 
-This repo is using:
+- Select the component element you want to convert in Figma and press the Create button.
+- If you want to use the text property, add the text property to the component.
+- If you want to use ReactNode as a child element, name the node to match the regular expression `/^props\.[a-zA-Z0-9]*[0-9]*(c|C)hildren)$/` (e.g. `props.children`, `props.headerChildren`).
 
-- React + Webpack
-- TypeScript
-- Prettier precommit hook
+## Unsupported Features
+
+- Conversion to tags other than div
+- Application of variant
+- Inheritance of property
+
+## Limitations
+
+It does not support all components created in Figma. In order to make them convertible, there are also some rules on the Figma side.
+
+- Always use AutoLayout.
+- Use only Frame, Rectangle, and Text within components.
+- When there are sibling elements to a text element, the parent element should not have padding.
