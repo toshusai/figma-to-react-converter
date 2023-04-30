@@ -5,6 +5,7 @@ import {
   getBorderRadius,
   getColor,
   getFlex,
+  getFontSize,
   getHeight,
   getLineHighlight,
   getMargin,
@@ -45,6 +46,7 @@ export function nodeToCSSProperties(node: SceneNode): CSSProperties {
       ...getLineHighlight(node),
       ...getMargin(node as FrameNode | InstanceNode | RectangleNode | TextNode),
       ...getBorder(node),
+      ...getFontSize(node),
     };
   }
   return styles;

@@ -10,3 +10,4 @@ export * from './getColor';
 export * from './getLineHeight';
 export * from './getMargin';
 export * from './getBorder';
+export * from './getFontSize';
