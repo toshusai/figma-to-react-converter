@@ -133,7 +133,7 @@ function App() {
               onChange={(v) => changeType(v as any)}
             />
           </div>
-          <div style={{ display: 'flex', height: 'calc(100% - 32px)', overflow: 'auto', backgroundColor: '#1e1e1e' }}>
+          <div style={{ display: 'flex', height: 'calc(100% - 32px)', overflow: 'auto' }}>
             {type === 'preview' && <Preview html={html} css={css} />}
             {type === 'css' && <Code lang="css">{css}</Code>}
             {type === 'html' && <Code lang="html">{html}</Code>}
