@@ -5,6 +5,7 @@ import {
   getColor,
   getFlex,
   getHeight,
+  getLineHighlight,
   getOverflow,
   getPadding,
   getPosition,
@@ -37,6 +38,7 @@ export function nodeToCSSProperties(node: SceneNode): CSSProperties {
       ...getBorderRadius(node),
       ...getOverflow(node),
       ...getColor(node),
+      ...getLineHighlight(node),
     };
   }
   return styles;

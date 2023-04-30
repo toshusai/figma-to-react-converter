@@ -7,3 +7,4 @@ export * from './getPadding';
 export * from './getPosition';
 export * from './getWidth';
 export * from './getColor';
+export * from './getLineHeight';
