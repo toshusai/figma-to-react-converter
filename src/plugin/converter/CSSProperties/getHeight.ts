@@ -8,7 +8,10 @@ export function getHeight(node: SceneNode): CSSProperties {
     };
   }
   if (node.type !== 'INSTANCE' && node.type !== 'FRAME' && node.type !== 'COMPONENT') return {};
-  if (node.layoutAlign === 'STRETCH' && node.layoutMode === 'VERTICAL') {
+  if (
+    (node.layoutAlign === 'STRETCH' && node.layoutMode === 'VERTICAL') ||
+    (node.layoutGrow === 1 && node.layoutMode === 'HORIZONTAL')
+  ) {
     return {
       height: '100%',
     };

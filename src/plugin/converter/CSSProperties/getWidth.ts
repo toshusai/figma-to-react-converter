@@ -8,7 +8,10 @@ export function getWidth(node: SceneNode): CSSProperties {
     };
   }
   if (node.type !== 'INSTANCE' && node.type !== 'FRAME' && node.type !== 'COMPONENT') return {};
-  if (node.layoutAlign === 'STRETCH' && node.layoutMode === 'HORIZONTAL') {
+  if (
+    (node.layoutAlign === 'STRETCH' && node.layoutMode === 'HORIZONTAL') ||
+    (node.layoutGrow === 1 && node.layoutMode === 'VERTICAL')
+  ) {
     return {
       width: '100%',
     };
