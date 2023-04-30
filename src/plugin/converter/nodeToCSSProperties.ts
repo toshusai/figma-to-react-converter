@@ -48,6 +48,8 @@ export function nodeToCSSProperties(node: SceneNode): CSSProperties {
       ...getBorder(node),
       ...getFontSize(node),
     };
+
+    Object.keys(styles).forEach((key) => styles[key] === undefined && delete styles[key]);
   }
   return styles;
 }
