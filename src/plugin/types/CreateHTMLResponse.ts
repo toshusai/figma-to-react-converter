@@ -1,6 +1,6 @@
+import { Dom } from './Dom';
 
 export type CreateHTMLResponse = {
-  src: string;
-  css: string;
+  root: Dom;
   imageHashBytesList: Record<string, Uint8Array>;
 };

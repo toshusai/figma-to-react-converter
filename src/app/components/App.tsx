@@ -4,6 +4,9 @@ import '../styles/ui.css';
 import type prettier from 'prettier';
 import { CreateHTMLResponse } from '../../plugin/types/CreateHTMLResponse';
 import { MessageType } from '../../plugin/types';
+import { cssPropertiesToCSSString, walkDom } from '../../plugin/utils';
+import { domToString } from '../../plugin/converter/domToString';
+import { nodeToReactCode } from '../../plugin/converter/nodeToReactCode';
 declare const prettierPlugins: any;
 
 function send(type: MessageType, message: any) {
@@ -26,30 +29,48 @@ function App() {
 
   const [css, setCss] = React.useState('');
   const [html, setHtml] = React.useState('');
+  const [reactSrc, setReactSrc] = React.useState('');
 
   React.useEffect(() => {
-    addEventListener(MessageType.CREATE_RECTANGLES, (message: CreateHTMLResponse) => {
-      let css: string = prettier.format(message.css, {
+    addEventListener(MessageType.CREATE_RECTANGLES, async (message: CreateHTMLResponse) => {
+      const dom = message.root;
+
+      let css = '';
+      walkDom(dom, (node) => {
+        if (node.styles) {
+          if (node.attrs['class']) {
+            css += cssPropertiesToCSSString(node.attrs['class'], node.styles);
+          }
+        }
+      });
+
+      css = prettier.format(css, {
         parser: 'css',
         plugins: prettierPlugins,
       });
 
-      const imageHashBytesList = message.imageHashBytesList;
-      Object.keys(imageHashBytesList).forEach((key) => {
-        const url = bytesToUrl(imageHashBytesList[key]);
+      Object.keys(message.imageHashBytesList).forEach((key) => {
+        const url = bytesToUrl(message.imageHashBytesList[key]);
         css = css.replace(new RegExp(key, 'g'), url);
       });
 
       setCss(css);
 
-      let src = prettier.format(message.src, {
+      let html = prettier.format(domToString(dom), {
         parser: 'typescript',
         plugins: prettierPlugins,
       });
 
-      setHtml(src);
+      setHtml(html);
 
-      document.getElementById('box')!.innerHTML = `<style>${css}</style>${src.replace(';', '')}`;
+      const src = prettier.format(nodeToReactCode(dom), {
+        parser: 'typescript',
+        plugins: prettierPlugins,
+      });
+
+      setReactSrc(src);
+
+      document.getElementById('box')!.innerHTML = `<style>${css}</style>${html.replace(';', '')}`;
     });
   }, []);
 
@@ -91,6 +112,11 @@ function App() {
       {type === 'html' && (
         <pre>
           <code>{html}</code>
+        </pre>
+      )}
+      {type === 'react' && (
+        <pre>
+          <code>{reactSrc}</code>
         </pre>
       )}
     </div>

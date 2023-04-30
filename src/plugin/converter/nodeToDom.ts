@@ -2,33 +2,51 @@ import { Dom } from '../types';
 import { nodeToCSSProperties } from './nodeToCSSProperties';
 import { toSafeClassName } from '../utils';
 
-export function nodeToDom(node: SceneNode, isRoot?: boolean) {
+export async function nodeToDom(node: SceneNode, isRoot?: boolean) {
   const dom: Dom = {
     tag: 'div',
-    className: 'node',
+    attrs: {},
     children: [],
   };
 
-  if (!isRoot && node.type === 'INSTANCE') {
-    dom.tag = node.type;
-  } else if (
+  if (
     node.type === 'FRAME' ||
     node.type === 'INSTANCE' ||
     node.type === 'TEXT' ||
     node.type === 'RECTANGLE' ||
-    node.type === 'COMPONENT'
+    node.type === 'COMPONENT' ||
+    node.type === 'VECTOR'
   ) {
-    dom.className = toSafeClassName(node.name);
+    dom.attrs['class'] = toSafeClassName(node.name);
+    if (node.type === 'INSTANCE' && node.mainComponent) {
+      dom.attrs['data-type'] = node.type;
+      dom.attrs['data-main-component'] = node.mainComponent.parent?.name ?? '';
+    }
     if (node.type === 'TEXT') {
       dom.children = [node.characters];
+    } else if (node.type === 'VECTOR') {
+      const bytes = await node.exportAsync({
+        format: 'SVG',
+      });
+      return {
+        tag: 'svg',
+        attrs: {},
+        meta: {
+          bytes: bytes,
+        },
+        children: [bytes.toLocaleString()],
+      };
     } else if (node.type === 'RECTANGLE') {
-    } else {
-      dom.children = node.children.map((c) => nodeToDom(c));
+    } else if (node.children) {
+      for (const c of node.children) {
+        const d = await nodeToDom(c);
+        dom.children?.push(d as any);
+      }
     }
     dom.styles = nodeToCSSProperties(node);
   } else {
     dom.tag = 'span';
-    dom.className = node.type;
+    dom.attrs['class'] = node.type;
   }
 
   return dom;
