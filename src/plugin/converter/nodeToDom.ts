@@ -24,7 +24,11 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
     dom.attrs['class'] = toSafeClassName(node.name);
     if (node.type === 'INSTANCE' && node.mainComponent) {
       dom.attrs['data-type'] = node.type;
-      dom.attrs['data-main-component'] = node.mainComponent?.name ?? '';
+      if (node.mainComponent.parent?.type === 'COMPONENT_SET') {
+        dom.attrs['data-main-component'] = node.mainComponent.parent.name;
+      } else {
+        dom.attrs['data-main-component'] = node.mainComponent?.name ?? '';
+      }
     }
     if (node.componentPropertyReferences?.characters) {
       dom.meta = {
