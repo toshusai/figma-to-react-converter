@@ -9,3 +9,4 @@ export * from './getWidth';
 export * from './getColor';
 export * from './getLineHeight';
 export * from './getMargin';
+export * from './getBorder';

@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react';
 import {
   getBackgroundColor,
+  getBorder,
   getBorderRadius,
   getColor,
   getFlex,
@@ -43,6 +44,7 @@ export function nodeToCSSProperties(node: SceneNode): CSSProperties {
       ...getColor(node),
       ...getLineHighlight(node),
       ...getMargin(node as FrameNode | InstanceNode | RectangleNode | TextNode),
+      ...getBorder(node),
     };
   }
   return styles;
