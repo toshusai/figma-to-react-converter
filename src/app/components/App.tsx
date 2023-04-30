@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import '../styles/ui.css';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
 
 import type prettier from 'prettier';
 import { CreateHTMLResponse } from '../../plugin/types/CreateHTMLResponse';
@@ -78,10 +80,18 @@ function App() {
 
   function changeType(type: 'css' | 'html' | 'react' | 'preview') {
     setType(type);
+    highlight();
   }
   const handleChangeType = (type: string) => {
     return () => changeType(type as any);
   };
+
+  function highlight() {
+    hljs.highlightAll();
+  }
+  useEffect(() => {
+    highlight();
+  }, []);
 
   return (
     <div>
@@ -104,22 +114,21 @@ function App() {
           id="box"
         ></div>
       </div>
-      {type === 'css' && (
-        <pre>
-          <code>{css}</code>
-        </pre>
-      )}
-      {type === 'html' && (
-        <pre>
-          <code>{html}</code>
-        </pre>
-      )}
-      {type === 'react' && (
-        <pre>
-          <code>{reactSrc}</code>
-        </pre>
-      )}
+      {type === 'css' && <Code lang="css">{css}</Code>}
+      {type === 'html' && <Code lang="html">{html}</Code>}
+      {type === 'react' && <Code lang="typescript">{reactSrc}</Code>}
     </div>
+  );
+}
+
+function Code(props: { lang: string; children: ReactNode }) {
+  useEffect(() => {
+    hljs.highlightAll();
+  }, []);
+  return (
+    <pre>
+      <code className={`language-${props.lang}`}>{props.children}</code>
+    </pre>
   );
 }
 

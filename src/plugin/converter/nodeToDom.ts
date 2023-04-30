@@ -2,7 +2,7 @@ import { Dom } from '../types';
 import { nodeToCSSProperties } from './nodeToCSSProperties';
 import { toSafeClassName } from '../utils';
 
-export async function nodeToDom(node: SceneNode, isRoot?: boolean) {
+export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
   const dom: Dom = {
     tag: 'div',
     attrs: {},
