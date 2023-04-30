@@ -8,3 +8,4 @@ export * from './getPosition';
 export * from './getWidth';
 export * from './getColor';
 export * from './getLineHeight';
+export * from './getMargin';

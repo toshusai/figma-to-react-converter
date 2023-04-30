@@ -6,14 +6,17 @@ import {
   getFlex,
   getHeight,
   getLineHighlight,
+  getMargin,
   getOverflow,
   getPadding,
   getPosition,
   getWidth,
 } from './CSSProperties';
 import { isMixed } from '../utils';
+import { isNotSupported } from './isNotSupported';
 
 export function nodeToCSSProperties(node: SceneNode): CSSProperties {
+  isNotSupported(node);
   let styles: CSSProperties = {};
   if (
     node.type === 'FRAME' ||
@@ -39,6 +42,7 @@ export function nodeToCSSProperties(node: SceneNode): CSSProperties {
       ...getOverflow(node),
       ...getColor(node),
       ...getLineHighlight(node),
+      ...getMargin(node as FrameNode | InstanceNode | RectangleNode | TextNode),
     };
   }
   return styles;
