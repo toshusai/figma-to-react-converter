@@ -44,9 +44,8 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
       dom.meta = {
         propsChildren: node.name.replace('props.', ''),
       };
-    } else {
-      dom.styles = nodeToCSSProperties(node);
     }
+    dom.styles = nodeToCSSProperties(node);
 
     if (node.type === 'TEXT') {
       dom.children = [node.characters];
