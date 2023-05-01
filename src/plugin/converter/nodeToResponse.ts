@@ -6,9 +6,15 @@ import { resetClassNameMap } from '../utils';
 export async function nodeToResponse(node: SceneNode): Promise<CreateHTMLResponse> {
   resetClassNameMap();
   const dom = await nodeToDom(node, true);
-  dom.meta = {
-    name: node.name,
-  };
+  if (node.parent?.type === 'COMPONENT_SET') {
+    dom.meta = {
+      name: node.parent.name,
+    };
+  } else {
+    dom.meta = {
+      name: node.name,
+    };
+  }
   const imageHashBytesList = await collectImageBytes();
   return {
     root: dom,
