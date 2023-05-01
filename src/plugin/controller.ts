@@ -1,4 +1,4 @@
-import { nodeToReactCode } from './converter/nodeToReactCode2';
+import { nodeToReactCode } from './converter/nodeToReactCode';
 
 figma.showUI(__html__);
 

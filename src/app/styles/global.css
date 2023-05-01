@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+}
+
+pre {
+  margin: 0;
+  width: 100%;
+}
+
+code {
+  font-family: Consolas, Monaco, monospace;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
