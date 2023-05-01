@@ -4,8 +4,8 @@ import { toKebabCase } from '../utils';
 
 type Context = {
   props: Props[];
-
   styled: string[];
+  imports: string[];
 };
 
 type Props = {
@@ -17,6 +17,7 @@ export function nodeToReactCode(dom: Dom) {
   const context: Context = {
     props: [],
     styled: [],
+    imports: [],
   };
   const jsx = domToJSX(dom, context);
 
@@ -24,6 +25,7 @@ export function nodeToReactCode(dom: Dom) {
   let src = `
 import React from 'react';
 import styled from 'styled-components';
+${context.imports.join('\n')}
 
 type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
   ref?: React.Ref<T>;
@@ -55,7 +57,7 @@ export function domToJSX(dom: Dom | string, context: Context) {
     return dom;
   }
   if (dom.attrs['data-type'] === 'INSTANCE') {
-    const mainComponent = dom.attrs['data-main-component'];
+    const mainComponentName = dom.attrs['data-main-component'].split(' ')[0];
     const attrsString = Object.entries(dom.attrs)
       .map(([key, value]) => {
         if (key === 'class') return '';
@@ -65,7 +67,15 @@ export function domToJSX(dom: Dom | string, context: Context) {
         return `${toKebabCase(key)}="${value}"`;
       })
       .join(' ');
-    return `<${mainComponent.split(' ')[0]} ${attrsString} />`;
+    const propsName = `${toCamelCase(mainComponentName)}Props`;
+    context.props.push({
+      name: propsName,
+      type: `Parameters<typeof ${mainComponentName}>[0]`,
+    });
+
+    context.imports.push(`import { ${mainComponentName} } from './${mainComponentName}';`);
+
+    return `<${mainComponentName} {...props.${propsName}} ${attrsString} />`;
   }
 
   const children = dom.children
