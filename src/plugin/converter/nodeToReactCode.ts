@@ -1,7 +1,11 @@
+import { CSSProperties } from 'styled-components';
 import { Dom } from '../types';
+import { toKebabCase } from '../utils';
 
 type Context = {
   props: Props[];
+
+  styled: string[];
 };
 
 type Props = {
@@ -12,6 +16,7 @@ type Props = {
 export function nodeToReactCode(dom: Dom) {
   const context: Context = {
     props: [],
+    styled: [],
   };
   const jsx = domToJSX(dom, context);
   let src = `
@@ -28,6 +33,9 @@ export function Component(${context.props.length > 0 ? 'props: Props' : ''}) {
         ${jsx}
     )
 }
+
+${context.styled.join('\n')}
+
 `;
 
   return src;
@@ -71,13 +79,45 @@ export function domToJSX(dom: Dom | string, context: Context) {
       return domToJSX(c, context);
     })
     .join('\n');
+
+  let tag = dom.tag;
   const attrsString = Object.entries(dom.attrs)
     .map(([key, value]) => {
       if (key === 'class') {
         key = 'className';
+        tag = domToStyledConstName(dom);
+        if (dom.styles) {
+          context.styled.push(cssPropertiesToStyledComponents(tag, dom.styles));
+        }
+        return;
       }
       return `${key}="${value}"`;
     })
     .join(' ');
-  return `<${dom.tag} ${attrsString}>${children}</${dom.tag}>`;
+  return `<${tag} ${attrsString}>${children}</${tag}>`;
+}
+
+function domToStyledConstName(dom: Dom) {
+  if (dom.attrs['class']) {
+    return `Styled${toPascalCase(dom.attrs['class'])}`;
+  }
+  throw new Error('domToStyledConstName: dom.attrs["class"] is undefined');
+}
+
+function toPascalCase(str: string) {
+  return str
+    .split('-')
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join('');
+}
+
+export function cssPropertiesToStyledComponents(name: string, cssProps: CSSProperties): string {
+  return `export const ${name} = styled.div\`
+${Object.entries(cssProps)
+  .map(([key, value]) => {
+    return `  ${toKebabCase(key)}: ${value};`;
+  })
+  .join('\n')}
+\`
+`;
 }

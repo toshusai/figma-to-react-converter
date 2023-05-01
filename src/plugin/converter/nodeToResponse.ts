@@ -1,9 +1,10 @@
 import { nodeToDom } from './nodeToDom';
 import { collectImageBytes } from './collectImageBytes';
 import { CreateHTMLResponse } from '../types';
+import { resetClassNameMap } from '../utils';
 
 export async function nodeToResponse(node: SceneNode): Promise<CreateHTMLResponse> {
-  console.log(node)
+  resetClassNameMap();
   const dom = await nodeToDom(node, true);
   const imageHashBytesList = await collectImageBytes();
   return {
