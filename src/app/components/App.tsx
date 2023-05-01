@@ -6,6 +6,7 @@ import type prettier from 'prettier';
 import { MessageType } from '../../plugin/types';
 import { Code } from './Code';
 import { Header } from './example/view/Header';
+import { TextButton } from './example/design/TextButton';
 declare const prettierPlugins: any;
 
 function send(type: MessageType, message: any) {
@@ -31,7 +32,7 @@ function App() {
   };
 
   const [reactSrc, setReactSrc] = useState('');
-  const [type, setType] = useState<'css' | 'html' | 'react' | 'preview'>('preview');
+  const [type, setType] = useState<'css' | 'html' | 'react' | 'preview'>('react');
 
   useEffect(() => {
     const clean = addEventListener('convert-component' as any, (msg: any) => {
@@ -61,15 +62,15 @@ function App() {
     >
       {!reactSrc && (
         <>
-          <button
-            style={{
-              margin: 'auto',
+          <TextButton
+            styledTextButtonProps={{
+              onClick: onCreate,
+              style: {
+                margin: 'auto',
+              },
             }}
-            className="button"
-            onClick={onCreate}
-          >
-            Create
-          </button>
+            text="Create Component"
+          />
         </>
       )}
       {reactSrc && (
