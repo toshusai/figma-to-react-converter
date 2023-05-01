@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/ui.css';
 import 'highlight.js/styles/vs2015.css';
 
 import type prettier from 'prettier';
