@@ -11,7 +11,7 @@ import { nodeToReactCode } from '../../plugin/converter/nodeToReactCode';
 import { Preview } from './Preview';
 import { Code } from './Code';
 import { bytesToUrl } from '../utils/bytesToUrl';
-import { Tabs } from './Tabs';
+import { Header } from './example/view/Header';
 declare const prettierPlugins: any;
 
 function send(type: MessageType, message: any) {
@@ -114,23 +114,14 @@ function App() {
               gap: '16px',
             }}
           >
-            <button
-              className="button"
-              onClick={() => {
+            <Header
+              onChangeTab={(v) => {
+                console.log(v);
+                changeType(v.toLowerCase() as any);
+              }}
+              onClickButton={() => {
                 setDom(null);
               }}
-            >
-              Back
-            </button>
-            <Tabs
-              items={[
-                { children: 'Preview', value: 'preview' },
-                { children: 'CSS', value: 'css' },
-                { children: 'HTML', value: 'html' },
-                { children: 'React', value: 'react' },
-              ]}
-              value={type}
-              onChange={(v) => changeType(v as any)}
             />
           </div>
           <div style={{ display: 'flex', height: 'calc(100% - 32px)', overflow: 'auto' }}>
