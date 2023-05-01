@@ -1,4 +1,4 @@
-import { createHTML } from './converter/createHTML';
+import { nodeToResponse } from './converter/nodeToResponse';
 import { MessageType } from './types';
 
 figma.showUI(__html__);
@@ -11,7 +11,7 @@ figma.ui.onmessage = async (msg) => {
     const nodes = figma.currentPage.selection;
     const node = nodes[0];
 
-    const res = await createHTML(node);
+    const res = await nodeToResponse(node);
 
     figma.ui.postMessage({
       type: MessageType.CREATE_RECTANGLES,
