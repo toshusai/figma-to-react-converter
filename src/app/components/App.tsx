@@ -7,7 +7,7 @@ import { CreateHTMLResponse } from '../../plugin/types/CreateHTMLResponse';
 import { Dom, MessageType } from '../../plugin/types';
 import { cssPropertiesToCSSString, walkDom } from '../../plugin/utils';
 import { domToString } from '../../plugin/converter/domToString';
-import { nodeToReactCode } from '../../plugin/converter/nodeToReactCode';
+import { handleComponentSet, nodeToReactCode } from '../../plugin/converter/nodeToReactCode';
 import { Preview } from './Preview';
 import { Code } from './Code';
 import { bytesToUrl } from '../utils/bytesToUrl';
@@ -71,11 +71,18 @@ function App() {
 
       setHtml(html);
 
-      const src = prettier.format(nodeToReactCode(dom), {
+      let src = '';
+      console.log(dom);
+      if (dom.meta && dom.meta.variantGroupProperties) {
+        src = handleComponentSet(dom);
+      } else {
+        src = nodeToReactCode(dom);
+      }
+      console.log(src)
+      src = prettier.format(src, {
         parser: 'typescript',
         plugins: prettierPlugins,
       });
-
       setReactSrc(src);
     });
   }, []);

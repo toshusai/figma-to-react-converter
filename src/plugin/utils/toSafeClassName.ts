@@ -6,6 +6,7 @@ export function resetClassNameMap() {
 
 export function toSafeClassName(name: string) {
   const safeName = name.replace(/[^a-zA-Z0-9]/g, '-');
+  return safeName
   const count = classNameMap.get(safeName) || 1;
   classNameMap.set(safeName, count + 1);
   if (count === 1) return safeName;

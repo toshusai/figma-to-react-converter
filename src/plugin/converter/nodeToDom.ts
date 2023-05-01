@@ -11,6 +11,9 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
     tag: 'div',
     attrs: {},
     children: [],
+    meta: {
+      name: node.name,
+    },
   };
 
   if (
@@ -19,7 +22,8 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
     node.type === 'TEXT' ||
     node.type === 'RECTANGLE' ||
     node.type === 'COMPONENT' ||
-    node.type === 'VECTOR'
+    node.type === 'VECTOR' ||
+    node.type === 'COMPONENT_SET'
   ) {
     if (node.name.endsWith('Button')) {
       dom.tag = 'button';
@@ -35,6 +39,11 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
       Object.keys(node.componentProperties).forEach((key) => {
         dom.attrs[`${key.split('#')[0]}`] = node.componentProperties[key].value.toString();
       });
+    }
+    if (node.type === 'COMPONENT_SET') {
+      dom.meta = {
+        variantGroupProperties: node.variantGroupProperties,
+      };
     }
     if (node.componentPropertyReferences?.characters) {
       dom.meta = {
