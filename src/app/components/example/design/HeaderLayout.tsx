@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextButton } from './Button';
+import { TextButton } from './TextButton';
 
 type DesignProps = {
   textButtonProps: Parameters<typeof TextButton>[0];

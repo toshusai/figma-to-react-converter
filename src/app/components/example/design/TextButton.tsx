@@ -1,17 +1,20 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
+type StyledProps<T> = Omit<
+  React.DetailedHTMLProps<React.HTMLAttributes<T>, T>,
+  "children" | "ref"
+> & {
   ref?: React.Ref<T>;
 };
 
-type Props = {
+export type TextButtonProps = {
   text: string;
   styledTextProps?: StyledProps<HTMLDivElement>;
   styledTextButtonProps?: StyledProps<HTMLButtonElement>;
 };
 
-export function TextButton(props: Props) {
+export function TextButton(props: TextButtonProps) {
   return (
     <StyledTextButton {...props.styledTextButtonProps}>
       <StyledText {...props.styledTextProps}>{props.text}</StyledText>
