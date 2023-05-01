@@ -21,6 +21,9 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
     node.type === 'COMPONENT' ||
     node.type === 'VECTOR'
   ) {
+    if (node.name.endsWith('Button')) {
+      dom.tag = 'button';
+    }
     dom.attrs['class'] = toSafeClassName(node.name);
     if (node.type === 'INSTANCE' && node.mainComponent) {
       dom.attrs['data-type'] = node.type;

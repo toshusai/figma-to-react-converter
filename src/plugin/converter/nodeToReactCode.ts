@@ -20,6 +20,9 @@ export function nodeToReactCode(dom: Dom) {
   };
   const jsx = domToJSX(dom, context);
   let src = `
+import React from 'react';
+import styled from 'styled-components';
+
 ${
   context.props.length > 0
     ? ` type Props = {
@@ -28,7 +31,7 @@ ${
     : ''
 }
 
-export function Component(${context.props.length > 0 ? 'props: Props' : ''}) {
+export function ${dom.meta?.name ?? 'Component'}(${context.props.length > 0 ? 'props: Props' : ''}) {
     return (
         ${jsx}
     )
@@ -87,7 +90,7 @@ export function domToJSX(dom: Dom | string, context: Context) {
         key = 'className';
         tag = domToStyledConstName(dom);
         if (dom.styles) {
-          context.styled.push(cssPropertiesToStyledComponents(tag, dom.styles));
+          context.styled.push(cssPropertiesToStyledComponents(dom.tag, tag, dom.styles));
         }
 
         const propName = tag + 'Props';
@@ -126,8 +129,8 @@ function toPascalCase(str: string) {
     .join('');
 }
 
-export function cssPropertiesToStyledComponents(name: string, cssProps: CSSProperties): string {
-  return `export const ${name} = styled.div\`
+export function cssPropertiesToStyledComponents(tag: string, name: string, cssProps: CSSProperties): string {
+  return `export const ${name} = styled.${tag}\`
 ${Object.entries(cssProps)
   .map(([key, value]) => {
     return `  ${toKebabCase(key)}: ${value};`;
