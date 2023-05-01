@@ -7,16 +7,6 @@ export function Code(props: { lang: string; children: ReactNode }): JSX.Element 
     hljs.highlightAll();
   }, []);
   const codeRef = useRef<HTMLElement>(null);
-  const copy = () => {
-    if (!props.children) return;
-    const codeTag = codeRef.current;
-    if (!codeTag) return;
-    const range = document.createRange();
-    range.selectNode(codeTag);
-    window.getSelection()?.addRange(range);
-    document.execCommand('copy');
-    window.getSelection()?.removeAllRanges();
-  };
 
   return (
     <pre
@@ -24,7 +14,7 @@ export function Code(props: { lang: string; children: ReactNode }): JSX.Element 
         position: 'relative',
       }}
     >
-      <CopyButton onClick={copy}>Copy</CopyButton>
+      <CopyButton codeRef={codeRef} />
       <code ref={codeRef} className={`language-${props.lang}`}>
         {props.children}
       </code>
@@ -32,7 +22,26 @@ export function Code(props: { lang: string; children: ReactNode }): JSX.Element 
   );
 }
 
-const CopyButton = styled.button`
+const CopyButton = (props: { codeRef?: React.RefObject<HTMLElement> }) => {
+  const [isCopied, setIsCopied] = React.useState(false);
+  const copy = () => {
+    const codeTag = props.codeRef?.current;
+    if (!codeTag) return;
+    const range = document.createRange();
+    range.selectNode(codeTag);
+    window.getSelection()?.addRange(range);
+    document.execCommand('copy');
+    window.getSelection()?.removeAllRanges();
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1000);
+  };
+
+  return <StyledCopyButton onClick={copy}>{isCopied ? 'Copied' : 'Copy'}</StyledCopyButton>;
+};
+
+const StyledCopyButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;
