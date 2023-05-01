@@ -92,7 +92,7 @@ export function domToJSX(dom: Dom | string, context: Context) {
 
         const propName = tag + 'Props';
         context.props.push({
-          name: toCamelCase(propName),
+          name: toCamelCase(propName) + '?',
           type: `WrapType<HTML${toPascalCase(dom.tag)}Element>`,
         });
 
