@@ -29,7 +29,9 @@ export function nodeToReactCode2(node: ComponentSetNode) {
   const jsx = nodesToJSX(componentNodes, ctx);
 
   // drop same props name
-  const props = ctx.props.filter((p, i) => ctx.props.findIndex((p2) => p2.name === p.name) === i);
+  const props = ctx.props
+    .filter((p, i) => ctx.props.findIndex((p2) => p2.name === p.name) === i)
+    .filter((p) => p.name !== '');
 
   const componentName = node.name ?? 'Component';
 
