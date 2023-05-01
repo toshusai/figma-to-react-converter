@@ -6,7 +6,8 @@ type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 
 };
 
 export type TextButtonProps = {
-  text: string;
+  text?: string;
+  property1?: string;
   styledTextProps?: StyledProps<HTMLDivElement>;
   styledTextButtonProps?: StyledProps<HTMLButtonElement>;
 };

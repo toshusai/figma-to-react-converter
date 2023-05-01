@@ -3,14 +3,8 @@ import '../styles/ui.css';
 import 'highlight.js/styles/vs2015.css';
 
 import type prettier from 'prettier';
-import { CreateHTMLResponse } from '../../plugin/types/CreateHTMLResponse';
 import { Dom, MessageType } from '../../plugin/types';
-import { cssPropertiesToCSSString, walkDom } from '../../plugin/utils';
-import { domToString } from '../../plugin/converter/domToString';
-import { handleComponentSet, nodeToReactCode } from '../../plugin/converter/nodeToReactCode';
-import { Preview } from './Preview';
 import { Code } from './Code';
-import { bytesToUrl } from '../utils/bytesToUrl';
 import { Header } from './example/view/Header';
 declare const prettierPlugins: any;
 
@@ -19,12 +13,16 @@ function send(type: MessageType, message: any) {
 }
 
 function addEventListener(type: MessageType, callback: (message: any) => void) {
-  window.addEventListener('message', (event) => {
+  let f = (event) => {
     const { type: t, message } = event.data.pluginMessage;
     if (type === t) {
       callback(message);
     }
-  });
+  };
+  window.addEventListener('message', f);
+  return () => {
+    window.removeEventListener('message', f);
+  };
 }
 
 function App() {
@@ -32,14 +30,12 @@ function App() {
     send('convert-component' as any, null);
   };
 
-  const [css, setCss] = useState('');
-  const [html, setHtml] = useState('');
   const [reactSrc, setReactSrc] = useState('');
   const [dom, setDom] = useState<Dom | null>(null);
   const [type, setType] = useState<'css' | 'html' | 'react' | 'preview'>('preview');
 
   useEffect(() => {
-    addEventListener('convert-component' as any, (msg: any) => {
+    const clean = addEventListener('convert-component' as any, (msg: any) => {
       console.log(msg);
       const src = prettier.format(msg.src, {
         parser: 'typescript',
@@ -53,52 +49,9 @@ function App() {
         styles: {},
       });
     });
-    addEventListener(MessageType.CREATE_RECTANGLES, async (message: CreateHTMLResponse) => {
-      const dom = message.root;
-      setDom(dom);
-
-      let css = '';
-      walkDom(dom, (node) => {
-        if (node.styles) {
-          if (node.attrs['class']) {
-            css += cssPropertiesToCSSString(node.attrs['class'], node.styles);
-          }
-        }
-      });
-
-      css = prettier.format(css, {
-        parser: 'css',
-        plugins: prettierPlugins,
-      });
-
-      Object.keys(message.imageHashBytesList).forEach((key) => {
-        const url = bytesToUrl(message.imageHashBytesList[key]);
-        css = css.replace(new RegExp(key, 'g'), url);
-      });
-
-      setCss(css);
-
-      let html = prettier.format(domToString(dom), {
-        parser: 'html',
-        plugins: prettierPlugins,
-      });
-
-      setHtml(html);
-
-      let src = '';
-      console.log(dom);
-      if (dom.meta && dom.meta.variantGroupProperties) {
-        src = handleComponentSet(dom);
-      } else {
-        src = nodeToReactCode(dom);
-      }
-      console.log(src);
-      src = prettier.format(src, {
-        parser: 'typescript',
-        plugins: prettierPlugins,
-      });
-      setReactSrc(src);
-    });
+    return () => {
+      clean();
+    };
   }, []);
 
   function changeType(type: 'css' | 'html' | 'react' | 'preview') {
@@ -145,9 +98,6 @@ function App() {
             />
           </div>
           <div style={{ display: 'flex', height: 'calc(100% - 32px)', overflow: 'auto' }}>
-            {type === 'preview' && <Preview html={html} css={css} />}
-            {type === 'css' && <Code lang="css">{css}</Code>}
-            {type === 'html' && <Code lang="html">{html}</Code>}
             {type === 'react' && <Code lang="typescript">{reactSrc}</Code>}
           </div>
         </>

@@ -128,7 +128,7 @@ export function nodesToJSX(nodes: AvaiableNode[], ctx: Context) {
       .join(' ');
     if (!mainNode.mainComponent) throw new Error('nodesToJSX: mainNode.mainComponent is null');
 
-    const mainComponentName = toPascalCase(mainNode.mainComponent.name.split('#')[0]);
+    const mainComponentName = toPascalCase(mainNode.mainComponent.parent?.name.split('#')[0]);
     const propsName = `${toCamelCase(mainComponentName)}Props`;
     ctx.props.push({
       name: propsName,
@@ -220,7 +220,6 @@ function variableCssPropertiesToStyledComponents(
   const name = nodeToStyledComponentsName(node);
   const componentNode = findParantConponentNode(node);
   if (!componentNode) throw new Error('variableCssPropertiesToStyledComponents: componentNode is null');
-  const componentSet = componentNode.parent;
   return `const ${name} = styled.${nodeToHtmlElement(node)}<PROPS>\`
 ${Object.entries(variantCSSProperties)
   .map(([cssStyleName, variant2ValueMap]) => {
