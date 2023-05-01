@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-// custom code
 import { TextButton } from './TextButton';
 
 type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
@@ -8,20 +7,15 @@ type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 
 };
 
 export type HeaderLayoutProps = {
+  textButtonProps: Parameters<typeof TextButton>[0];
   children: React.ReactNode;
   styledHeaderLayoutProps?: StyledProps<HTMLDivElement>;
-  // custom code
-  textButtonProps?: Parameters<typeof TextButton>[0];
 };
 
 export function HeaderLayout(props: HeaderLayoutProps) {
   return (
     <StyledHeaderLayout {...props.styledHeaderLayoutProps}>
-      <TextButton
-        {...props.textButtonProps}
-        // custom code
-        text="Back"
-      />
+      <TextButton {...props.textButtonProps} text="Back" />
       {props.children}
     </StyledHeaderLayout>
   );
