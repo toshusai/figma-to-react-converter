@@ -21,7 +21,7 @@ export function HeaderLayout(props: HeaderLayoutProps) {
   );
 }
 
-export const StyledHeaderLayout = styled.div`
+const StyledHeaderLayout = styled.div`
   background-color: #ffffffff;
   display: flex;
   flex-direction: row;

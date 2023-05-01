@@ -1,10 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-type StyledProps<T> = Omit<
-  React.DetailedHTMLProps<React.HTMLAttributes<T>, T>,
-  "children" | "ref"
-> & {
+type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
   ref?: React.Ref<T>;
 };
 
@@ -22,7 +19,7 @@ export function TextButton(props: TextButtonProps) {
   );
 }
 
-export const StyledText = styled.div`
+const StyledText = styled.div`
   position: relative;
   color: #000000ff;
   line-height: 19px;
@@ -30,7 +27,7 @@ export const StyledText = styled.div`
   font-size: 16px;
 `;
 
-export const StyledTextButton = styled.button`
+const StyledTextButton = styled.button`
   display: flex;
   flex-direction: row;
   position: relative;
