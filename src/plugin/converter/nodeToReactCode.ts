@@ -155,7 +155,7 @@ function toPascalCase(str: string) {
 }
 
 export function cssPropertiesToStyledComponents(tag: string, name: string, cssProps: CSSProperties): string {
-  return `export const ${name} = styled.${tag}\`
+  return `const ${name} = styled.${tag}\`
 ${Object.entries(cssProps)
   .map(([key, value]) => {
     return `  ${toKebabCase(key)}: ${value};`;
