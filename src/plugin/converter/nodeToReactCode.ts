@@ -37,7 +37,7 @@ ${
     : ''
 }
 
-export function ${componentName}(${context.props.length > 0 ? 'props: Props' : ''}) {
+export function ${componentName}(${context.props.length > 0 ? `props: ${componentName}Props` : ''}) {
     return (
         ${jsx}
     )
