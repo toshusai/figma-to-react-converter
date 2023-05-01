@@ -56,7 +56,16 @@ export function domToJSX(dom: Dom | string, context: Context) {
   }
   if (dom.attrs['data-type'] === 'INSTANCE') {
     const mainComponent = dom.attrs['data-main-component'];
-    return `<${mainComponent.split(' ')[0]} />`;
+    const attrsString = Object.entries(dom.attrs)
+      .map(([key, value]) => {
+        if (key === 'class') return '';
+        if (key === 'data-type' || key === 'data-main-component') {
+          return '';
+        }
+        return `${toKebabCase(key)}="${value}"`;
+      })
+      .join(' ');
+    return `<${mainComponent.split(' ')[0]} ${attrsString} />`;
   }
 
   const children = dom.children

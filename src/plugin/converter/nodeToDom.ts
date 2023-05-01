@@ -32,6 +32,9 @@ export async function nodeToDom(node: SceneNode, _isRoot?: boolean) {
       } else {
         dom.attrs['data-main-component'] = node.mainComponent?.name ?? '';
       }
+      Object.keys(node.componentProperties).forEach((key) => {
+        dom.attrs[`${key.split('#')[0]}`] = node.componentProperties[key].value.toString();
+      });
     }
     if (node.componentPropertyReferences?.characters) {
       dom.meta = {
