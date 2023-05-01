@@ -116,7 +116,6 @@ function App() {
           >
             <Header
               onChangeTab={(v) => {
-                console.log(v);
                 changeType(v.toLowerCase() as any);
               }}
               onClickButton={() => {
