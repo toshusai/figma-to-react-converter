@@ -5,7 +5,7 @@ export function isChildrenName(name: string) {
   return name.match(/^props\.[a-zA-Z0-9]*(c|C)hildren$/) !== null;
 }
 
-export function nodeToReactCode2(node: ComponentSetNode) {
+export function nodeToReactCode(node: ComponentSetNode) {
   const componentNodes: ComponentNode[] = [];
   node.children.forEach((node) => {
     if (node.type === 'COMPONENT') {

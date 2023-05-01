@@ -1,4 +1,4 @@
-import { nodeToReactCode2 } from './converter/nodeToReactCode2';
+import { nodeToReactCode } from './converter/nodeToReactCode2';
 
 figma.showUI(__html__);
 
@@ -10,7 +10,7 @@ figma.ui.onmessage = async (msg) => {
     const nodes = figma.currentPage.selection;
     const node = nodes[0];
     if (node.type === 'COMPONENT_SET') {
-      const src = nodeToReactCode2(node);
+      const src = nodeToReactCode(node);
       figma.ui.postMessage({
         type: 'convert-component',
         message: {
