@@ -1,5 +1,5 @@
+import { toKebabCase } from 'js-convert-case';
 import { CSSProperties } from 'react';
-import { toKebabCase } from './toKebabCase';
 
 export function cssPropertiesToCSSString(name: string, styles: CSSProperties) {
   const css = Object.entries(styles)

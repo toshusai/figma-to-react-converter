@@ -3,7 +3,7 @@ import '../styles/ui.css';
 import 'highlight.js/styles/vs2015.css';
 
 import type prettier from 'prettier';
-import { Dom, MessageType } from '../../plugin/types';
+import { MessageType } from '../../plugin/types';
 import { Code } from './Code';
 import { Header } from './example/view/Header';
 declare const prettierPlugins: any;
@@ -31,7 +31,6 @@ function App() {
   };
 
   const [reactSrc, setReactSrc] = useState('');
-  const [dom, setDom] = useState<Dom | null>(null);
   const [type, setType] = useState<'css' | 'html' | 'react' | 'preview'>('preview');
 
   useEffect(() => {
@@ -42,12 +41,6 @@ function App() {
         plugins: prettierPlugins,
       });
       setReactSrc(src);
-      setDom({
-        attrs: {},
-        children: [],
-        tag: 'div',
-        styles: {},
-      });
     });
     return () => {
       clean();
@@ -66,7 +59,7 @@ function App() {
         flexDirection: 'column',
       }}
     >
-      {!dom && (
+      {!reactSrc && (
         <>
           <button
             style={{
@@ -79,7 +72,7 @@ function App() {
           </button>
         </>
       )}
-      {dom && (
+      {reactSrc && (
         <>
           <div
             style={{
@@ -93,7 +86,7 @@ function App() {
                 changeType(v.toLowerCase() as any);
               }}
               onClickButton={() => {
-                setDom(null);
+                setReactSrc('');
               }}
             />
           </div>

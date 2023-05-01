@@ -1,7 +1,9 @@
 import { CSSProperties } from 'styled-components';
 import { nodeToCSSProperties } from './nodeToCSSProperties';
 import { toCamelCase, toKebabCase, toPascalCase } from 'js-convert-case';
-import { isChildrenName } from './nodeToDom';
+export function isChildrenName(name: string) {
+  return name.match(/^props\.[a-zA-Z0-9]*(c|C)hildren$/) !== null;
+}
 
 export function nodeToReactCode2(node: ComponentSetNode) {
   const componentNodes: ComponentNode[] = [];
