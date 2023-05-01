@@ -1,21 +1,33 @@
 import React from 'react';
-import { WrapType } from '.';
 import styled from 'styled-components';
 
-export type ButtonProps = {
-  buttonProps?: WrapType<HTMLButtonElement>;
-  children?: React.ReactNode;
+type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
+  ref?: React.Ref<T>;
 };
 
-export function Button(props: ButtonProps) {
+type Props = {
+  text: string;
+  styledTextProps?: StyledProps<HTMLDivElement>;
+  styledTextButtonProps?: StyledProps<HTMLButtonElement>;
+};
+
+export function TextButton(props: Props) {
   return (
-    <StyledButton {...props.buttonProps}>
-      <StyledTextDiv>{props.children}</StyledTextDiv>
-    </StyledButton>
+    <StyledTextButton {...props.styledTextButtonProps}>
+      <StyledText {...props.styledTextProps}>{props.text}</StyledText>
+    </StyledTextButton>
   );
 }
 
-const StyledButton = styled.button`
+export const StyledText = styled.div`
+  position: relative;
+  color: #000000ff;
+  line-height: 19px;
+  margin: 8px 16px;
+  font-size: 16px;
+`;
+
+export const StyledTextButton = styled.button`
   display: flex;
   flex-direction: row;
   position: relative;
@@ -24,12 +36,4 @@ const StyledButton = styled.button`
   border: #000000ff 1px solid;
   align-items: flex-start;
   justify-content: flex-start;
-`;
-
-const StyledTextDiv = styled.div`
-  position: relative;
-  color: #000000ff;
-  line-height: 19px;
-  margin: 8px 16px;
-  font-size: 16px;
 `;

@@ -12,8 +12,11 @@ export function Header(props: HeaderProps) {
   const [tab, setTab] = React.useState(tabs[0]);
   return (
     <HeaderLayout
-      buttonAttrs={{
-        onClick: props.onClickButton,
+      textButtonProps={{
+        text: 'Back',
+        styledTextButtonProps: {
+          onClick: props.onClickButton,
+        },
       }}
     >
       <Tabs

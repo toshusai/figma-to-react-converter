@@ -1,15 +1,15 @@
 import React from 'react';
-import { ButtonProps, Button } from './Button';
+import { TextButton } from './Button';
 
 type DesignProps = {
-  buttonAttrs?: ButtonProps['buttonProps'];
+  textButtonProps: Parameters<typeof TextButton>[0];
   children?: React.ReactNode;
 };
 
 export function HeaderLayout(props: DesignProps) {
   return (
     <div className="wrap">
-      <Button buttonProps={props.buttonAttrs}>Create</Button>
+      <TextButton {...props.textButtonProps}></TextButton>
       {props.children}
     </div>
   );
