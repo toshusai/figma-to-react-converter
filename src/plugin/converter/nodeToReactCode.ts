@@ -19,19 +19,25 @@ export function nodeToReactCode(dom: Dom) {
     styled: [],
   };
   const jsx = domToJSX(dom, context);
+
+  const componentName = dom.meta?.name ?? 'Component';
   let src = `
 import React from 'react';
 import styled from 'styled-components';
 
+type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
+  ref?: React.Ref<T>;
+};
+
 ${
   context.props.length > 0
-    ? ` type Props = {
+    ? `export type ${componentName}Props = {
     ${context.props.map((p) => `${p.name}: ${p.type}`).join('\n')}
 } `
     : ''
 }
 
-export function ${dom.meta?.name ?? 'Component'}(${context.props.length > 0 ? 'props: Props' : ''}) {
+export function ${componentName}(${context.props.length > 0 ? 'props: Props' : ''}) {
     return (
         ${jsx}
     )
@@ -93,10 +99,10 @@ export function domToJSX(dom: Dom | string, context: Context) {
           context.styled.push(cssPropertiesToStyledComponents(dom.tag, tag, dom.styles));
         }
 
-        const propName = tag + 'Props';
+        const propName = toCamelCase(tag + 'Props');
         context.props.push({
-          name: toCamelCase(propName) + '?',
-          type: `WrapType<HTML${toPascalCase(dom.tag)}Element>`,
+          name: propName + '?',
+          type: `StyledProps<HTML${toPascalCase(dom.tag)}Element>`,
         });
 
         return `{...props.${propName}}`;
