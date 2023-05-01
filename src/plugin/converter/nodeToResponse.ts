@@ -1,26 +1,15 @@
-import { nodeToDom } from './nodeToDom';
-import { collectImageBytes } from './collectImageBytes';
 import { CreateHTMLResponse } from '../types';
 import { resetClassNameMap } from '../utils';
+import { nodeToReactCode2 } from './nodeToReactCode2';
 
 export async function nodeToResponse(node: SceneNode): Promise<CreateHTMLResponse> {
   resetClassNameMap();
   console.log(node);
-  const dom = await nodeToDom(node, true);
-  if (node.parent?.type === 'COMPONENT_SET') {
-    dom.meta = {
-      ...dom.meta,
-      name: node.parent.name,
-    };
+
+  if (node.type === 'COMPONENT_SET') {
+    nodeToReactCode2(node);
   } else {
-    dom.meta = {
-      ...dom.meta,
-      name: node.name,
-    };
+    console.log('not component set', node);
   }
-  const imageHashBytesList = await collectImageBytes();
-  return {
-    root: dom,
-    imageHashBytesList,
-  };
+  throw new Error('Not implemented');
 }

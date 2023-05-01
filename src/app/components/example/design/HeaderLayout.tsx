@@ -7,21 +7,22 @@ type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 
 };
 
 export type HeaderLayoutProps = {
+  property1: string;
   textButtonProps: Parameters<typeof TextButton>[0];
   children: React.ReactNode;
-  styledHeaderLayoutProps?: StyledProps<HTMLDivElement>;
+  styledRootProps: StyledProps<HTMLDivElement>;
 };
 
 export function HeaderLayout(props: HeaderLayoutProps) {
   return (
-    <StyledHeaderLayout {...props.styledHeaderLayoutProps}>
+    <StyledRoot {...props.styledRootProps}>
       <TextButton {...props.textButtonProps} text="Back" />
       {props.children}
-    </StyledHeaderLayout>
+    </StyledRoot>
   );
 }
 
-const StyledHeaderLayout = styled.div`
+const StyledRoot = styled.div`
   background-color: #ffffffff;
   display: flex;
   flex-direction: row;

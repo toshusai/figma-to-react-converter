@@ -29,7 +29,7 @@ function addEventListener(type: MessageType, callback: (message: any) => void) {
 
 function App() {
   const onCreate = () => {
-    send(MessageType.CREATE_RECTANGLES, 'Hello World!');
+    send('convert-component' as any, null);
   };
 
   const [css, setCss] = useState('');
@@ -39,6 +39,20 @@ function App() {
   const [type, setType] = useState<'css' | 'html' | 'react' | 'preview'>('preview');
 
   useEffect(() => {
+    addEventListener('convert-component' as any, (msg: any) => {
+      console.log(msg);
+      const src = prettier.format(msg.src, {
+        parser: 'typescript',
+        plugins: prettierPlugins,
+      });
+      setReactSrc(src);
+      setDom({
+        attrs: {},
+        children: [],
+        tag: 'div',
+        styles: {},
+      });
+    });
     addEventListener(MessageType.CREATE_RECTANGLES, async (message: CreateHTMLResponse) => {
       const dom = message.root;
       setDom(dom);
@@ -78,7 +92,7 @@ function App() {
       } else {
         src = nodeToReactCode(dom);
       }
-      console.log(src)
+      console.log(src);
       src = prettier.format(src, {
         parser: 'typescript',
         plugins: prettierPlugins,

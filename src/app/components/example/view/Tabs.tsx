@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tab } from '../design/Tab';
+import { TabButton } from '../design/Tab';
 
 type TabsProps = {
   tabs: string[];
@@ -11,13 +11,14 @@ export function Tabs(props: TabsProps) {
   return (
     <div className="tabs">
       {props.tabs.map((item) => (
-        <Tab
+        <TabButton
           key={item}
-          styledButtonProps={{
+          styledTabButtonProps={{
             onClick: () => props.onChangeTab?.(item),
           }}
+          selected={props.tab?.toLocaleLowerCase() === item.toLocaleLowerCase() ? 'true' : 'false'}
           text={item}
-        ></Tab>
+        ></TabButton>
       ))}
     </div>
   );

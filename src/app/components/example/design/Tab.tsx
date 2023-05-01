@@ -5,17 +5,18 @@ type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 
   ref?: React.Ref<T>;
 };
 
-export type TabProps = {
-  text: string;
+export type TabButtonProps = {
+  text?: string;
+  selected?: string;
   styledTextProps?: StyledProps<HTMLDivElement>;
-  styledButtonProps?: StyledProps<HTMLButtonElement>;
+  styledTabButtonProps?: StyledProps<HTMLButtonElement>;
 };
 
-export function Tab(props: TabProps) {
+export function TabButton(props: TabButtonProps) {
   return (
-    <StyledButton {...props.styledButtonProps}>
+    <StyledTabButton {...props.styledTabButtonProps} $selected={props.selected}>
       <StyledText {...props.styledTextProps}>{props.text}</StyledText>
-    </StyledButton>
+    </StyledTabButton>
   );
 }
 
@@ -27,7 +28,7 @@ const StyledText = styled.div`
   font-size: 16px;
 `;
 
-const StyledButton = styled.button`
+const StyledTabButton = styled.button<{ $selected?: string }>`
   display: flex;
   flex-direction: row;
   position: relative;
@@ -35,7 +36,13 @@ const StyledButton = styled.button`
   overflow: hidden;
   border-top: #000000ff 0px solid;
   border-right: #000000ff 0px solid;
-  border-bottom: #000000ff 1px solid;
+  border-bottom: ${(props) => {
+    return props.$selected === 'true'
+      ? '#000000ff 3px solid'
+      : props.$selected === 'false'
+      ? '#000000ff 1px solid'
+      : undefined;
+  }};
   border-left: #000000ff 0px solid;
   align-items: flex-start;
   justify-content: flex-start;
