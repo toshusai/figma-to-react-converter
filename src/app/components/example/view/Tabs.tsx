@@ -13,13 +13,11 @@ export function Tabs(props: TabsProps) {
       {props.tabs.map((item) => (
         <Tab
           key={item}
-          buttonProps={{
+          styledButtonProps={{
             onClick: () => props.onChangeTab?.(item),
           }}
-          selected={item === props.tab}
-        >
-          {item}
-        </Tab>
+          text={item}
+        ></Tab>
       ))}
     </div>
   );
