@@ -89,11 +89,19 @@ export function domToJSX(dom: Dom | string, context: Context) {
         if (dom.styles) {
           context.styled.push(cssPropertiesToStyledComponents(tag, dom.styles));
         }
-        return;
+
+        const propName = tag + 'Props';
+        context.props.push({
+          name: toCamelCase(propName),
+          type: `WrapType<HTML${toPascalCase(dom.tag)}Element>`,
+        });
+
+        return `{...props.${propName}}`;
       }
       return `${key}="${value}"`;
     })
     .join(' ');
+
   return `<${tag} ${attrsString}>${children}</${tag}>`;
 }
 
@@ -102,6 +110,13 @@ function domToStyledConstName(dom: Dom) {
     return `Styled${toPascalCase(dom.attrs['class'])}`;
   }
   throw new Error('domToStyledConstName: dom.attrs["class"] is undefined');
+}
+
+function toCamelCase(str: string) {
+  return str
+    .split('-')
+    .map((s) => s.charAt(0).toLowerCase() + s.slice(1))
+    .join('');
 }
 
 function toPascalCase(str: string) {
