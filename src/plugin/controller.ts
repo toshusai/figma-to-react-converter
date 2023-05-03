@@ -28,6 +28,10 @@ figma.ui.onmessage = async (msg) => {
             svgMap: mapToObj(svgMap),
           },
         });
+        figma.ui.postMessage({
+          type: 'error',
+          message: '',
+        });
       } else {
         figma.ui.postMessage({
           type: 'error',
