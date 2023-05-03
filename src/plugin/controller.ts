@@ -8,12 +8,12 @@ figma.ui.resize(512, 512);
 
 export let imageHashBytesList: Record<string, Uint8Array> = {};
 figma.ui.onmessage = async (msg) => {
-  promises.splice(0, promises.length);
-  if (msg.type === 'convert-component') {
-    const nodes = figma.currentPage.selection;
-    const node = nodes[0];
-    if (node.type === 'COMPONENT_SET') {
-      try {
+  try {
+    if (msg.type === 'convert-component') {
+      promises.splice(0, promises.length);
+      const nodes = figma.currentPage.selection;
+      const node = nodes[0];
+      if (node.type === 'COMPONENT_SET') {
         const src = nodeToReactCode(node);
         const html = nodeToHTML(node);
 
@@ -28,18 +28,18 @@ figma.ui.onmessage = async (msg) => {
             svgMap: mapToObj(svgMap),
           },
         });
-      } catch (e: any) {
+      } else {
         figma.ui.postMessage({
           type: 'error',
-          message: 'toStinrg' in e ? e.toString() : e,
+          message: 'Please select a component set',
         });
       }
-    } else {
-      figma.ui.postMessage({
-        type: 'error',
-        message: 'Please select a component set',
-      });
     }
+  } catch (e: any) {
+    figma.ui.postMessage({
+      type: 'error',
+      message: 'toStinrg' in e ? e.toString() : e,
+    });
   }
 };
 

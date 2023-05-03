@@ -27,14 +27,18 @@ function addEventListener(type: MessageType, callback: (message: any) => void) {
 }
 
 function App() {
-  const onCreate = () => {
-    send('convert-component' as any, null);
-  };
-
   const [reactSrc, setReactSrc] = useState('');
   const [htmlSrc, setHtmlSrc] = useState('');
   const [error, setError] = useState('');
   const [type, setType] = useState<'css' | 'html' | 'react' | 'preview'>('react');
+
+  const onCreate = () => {
+    try {
+      send('convert-component' as any, null);
+    } catch (e: any) {
+      setError(e);
+    }
+  };
 
   useEffect(() => {
     const clean = addEventListener('convert-component' as any, (msg: any) => {
