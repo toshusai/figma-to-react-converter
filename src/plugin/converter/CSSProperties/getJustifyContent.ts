@@ -6,7 +6,7 @@ export function getJustifyContent(node: FrameNode | InstanceNode): CSSProperties
     return {
       justifyContent:
         node.primaryAxisAlignItems === 'MIN'
-          ? 'flex-start'
+          ? undefined
           : node.primaryAxisAlignItems === 'CENTER'
           ? 'center'
           : node.primaryAxisAlignItems === 'MAX'
@@ -18,7 +18,7 @@ export function getJustifyContent(node: FrameNode | InstanceNode): CSSProperties
     return {
       justifyContent:
         node.primaryAxisAlignItems === 'MIN'
-          ? 'flex-start'
+          ? undefined
           : node.primaryAxisAlignItems === 'CENTER'
           ? 'center'
           : node.primaryAxisAlignItems === 'MAX'

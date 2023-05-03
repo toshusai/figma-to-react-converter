@@ -6,7 +6,7 @@ export function getAlignItems(node: FrameNode | InstanceNode): CSSProperties {
     return {
       alignItems:
         node.counterAxisAlignItems === 'MIN'
-          ? 'flex-start'
+          ? undefined
           : node.counterAxisAlignItems === 'CENTER'
           ? 'center'
           : node.counterAxisAlignItems === 'MAX'
@@ -18,7 +18,7 @@ export function getAlignItems(node: FrameNode | InstanceNode): CSSProperties {
     return {
       alignItems:
         node.counterAxisAlignItems === 'MIN'
-          ? 'flex-start'
+          ? undefined
           : node.counterAxisAlignItems === 'CENTER'
           ? 'center'
           : node.counterAxisAlignItems === 'MAX'

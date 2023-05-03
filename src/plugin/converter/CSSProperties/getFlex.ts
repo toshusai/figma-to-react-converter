@@ -5,7 +5,7 @@ export function getFlex(node: FrameNode | InstanceNode): CSSProperties {
   if (node.layoutMode === 'HORIZONTAL') {
     return {
       display: 'flex',
-      flexDirection: 'row',
+      // flexDirection: 'row',
       gap: node.itemSpacing !== 0 ? `${node.itemSpacing}px` : undefined,
     };
   }

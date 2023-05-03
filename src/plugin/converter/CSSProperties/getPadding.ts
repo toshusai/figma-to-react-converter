@@ -19,6 +19,7 @@ export function getPadding(
     node.paddingTop === node.paddingLeft &&
     node.paddingTop === node.paddingRight
   ) {
+    if(node.paddingTop === 0) return {};
     return {
       padding: `${node.paddingTop}px`,
     };
