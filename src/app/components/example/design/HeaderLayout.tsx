@@ -31,7 +31,9 @@ const StyledHeaderLayout = styled.div`
   display: flex;
   gap: 16px;
   width: 100%;
-  padding: 8px 0px;
+  height: 64px;
+  min-height: 64px;
+  max-height: 64px;
   position: relative;
   overflow: hidden;
   align-items: center;
