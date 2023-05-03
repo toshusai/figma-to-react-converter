@@ -1,13 +1,9 @@
 import { imageHashMap, promises, svgMap } from './converter/global';
 import { nodeToHTML } from './converter/nodeToHTML';
 import { nodeToReactCode } from './converter/nodeToReactCode';
+import { mapToObj } from './utils/mapToObj';
 
-figma.showUI(__html__);
-
-figma.ui.resize(512, 512);
-
-export let imageHashBytesList: Record<string, Uint8Array> = {};
-figma.ui.onmessage = async (msg) => {
+export async function handleFigmaMessage(msg) {
   try {
     if (msg.type === 'convert-component') {
       promises.splice(0, promises.length);
@@ -45,12 +41,4 @@ figma.ui.onmessage = async (msg) => {
       message: 'toStinrg' in e ? e.toString() : e,
     });
   }
-};
-
-function mapToObj<T>(map: Map<string, T>): Record<string, T> {
-  const obj: Record<string, T> = {};
-  map.forEach((value, key) => {
-    obj[key] = value;
-  });
-  return obj;
 }
