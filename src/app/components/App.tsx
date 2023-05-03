@@ -107,22 +107,14 @@ function App() {
       )}
       {reactSrc && (
         <>
-          <div
-            style={{
-              margin: '8px auto',
-              display: 'flex',
-              gap: '16px',
+          <Header
+            onChangeTab={(v) => {
+              changeType(v.toLowerCase() as any);
             }}
-          >
-            <Header
-              onChangeTab={(v) => {
-                changeType(v.toLowerCase() as any);
-              }}
-              onClickButton={() => {
-                setReactSrc('');
-              }}
-            />
-          </div>
+            onClickButton={() => {
+              setReactSrc('');
+            }}
+          />
           {type === 'react' && <Code lang="typescript">{reactSrc}</Code>}
           {type === 'html' && <Preview html={htmlSrc}></Preview>}
         </>

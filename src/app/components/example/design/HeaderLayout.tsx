@@ -30,10 +30,12 @@ const StyledRight = styled.div`
 const StyledHeaderLayout = styled.div`
   display: flex;
   gap: 16px;
-  padding: 4px 16px;
+  width: 100%;
+  padding: 8px 0px;
   position: relative;
   overflow: hidden;
   align-items: center;
+  justify-content: center;
 `;
 
 type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
