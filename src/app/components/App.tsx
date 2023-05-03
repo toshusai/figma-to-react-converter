@@ -7,6 +7,7 @@ import { Code } from './Code';
 import { Header } from './example/view/Header';
 import { TextButton } from './example/design/TextButton';
 import { Preview } from './Preview';
+import { TopLayout } from './example/design/TopLayout';
 declare const prettierPlugins: any;
 
 function send(type: MessageType, message: any) {
@@ -33,6 +34,7 @@ function App() {
 
   const [reactSrc, setReactSrc] = useState('');
   const [htmlSrc, setHtmlSrc] = useState('');
+  const [error, setError] = useState('');
   const [type, setType] = useState<'css' | 'html' | 'react' | 'preview'>('react');
 
   useEffect(() => {
@@ -67,8 +69,12 @@ function App() {
       setReactSrc(src);
       setHtmlSrc(html);
     });
+    const cleanError = addEventListener('error' as any, (msg: any) => {
+      setError(msg);
+    });
     return () => {
       clean();
+      cleanError();
     };
   }, []);
 
@@ -85,17 +91,16 @@ function App() {
       }}
     >
       {!reactSrc && (
-        <>
-          <TextButton
-            styledTextButtonProps={{
+        <TopLayout
+          textButtonProps={{
+            styledTextButtonProps: {
               onClick: onCreate,
-              style: {
-                margin: 'auto',
-              },
-            }}
-            text="Create Component"
-          />
-        </>
+            },
+            text: 'Create Component',
+          }}
+        >
+          {error && <div style={{ color: 'red' }}>{error}</div>}
+        </TopLayout>
       )}
       {reactSrc && (
         <>

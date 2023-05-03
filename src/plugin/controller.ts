@@ -28,9 +28,17 @@ figma.ui.onmessage = async (msg) => {
             svgMap: mapToObj(svgMap),
           },
         });
-      } catch (e) {
-        console.log(e);
+      } catch (e: any) {
+        figma.ui.postMessage({
+          type: 'error',
+          message: 'toStinrg' in e ? e.toString() : e,
+        });
       }
+    } else {
+      figma.ui.postMessage({
+        type: 'error',
+        message: 'Please select a component set',
+      });
     }
   }
 };
