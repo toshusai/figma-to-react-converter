@@ -5,7 +5,6 @@ import type prettier from 'prettier';
 import { MessageType } from '../../plugin/types';
 import { Code } from './Code';
 import { Header } from './example/view/Header';
-import { TextButton } from './example/design/TextButton';
 import { Preview } from './Preview';
 import { TopLayout } from './example/design/TopLayout';
 declare const prettierPlugins: any;
