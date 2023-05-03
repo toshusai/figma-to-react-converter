@@ -10,6 +10,7 @@ import {
 } from './variableCssPropertiesToStyledComponents';
 import { nodeToHtmlElement } from './nodeToHtmlElement';
 import { nodeToStyledComponentsName } from './nodeToStyledComponentsName';
+import { promises, svgMap } from './nodeToHTML';
 
 export function nodesToJSX(nodes: AvaiableNode[], ctx: Context) {
   const sameChildrenCount = nodes.every((node) => {
@@ -76,6 +77,12 @@ export function nodesToJSX(nodes: AvaiableNode[], ctx: Context) {
     ctx.imports.push(`import {${mainComponentName}} from './${mainComponentName}';`);
 
     return `<${mainComponentName} {...props.${propsName}} ${attrsString} />`;
+  } else if (mainNode.type === 'VECTOR') {
+    const promise = mainNode.exportAsync({ format: 'SVG' }).then((svg) => {
+      svgMap.set(mainNode.id, svg);
+    });
+    promises.push(promise);
+    return `${mainNode.id}`;
   }
 
   let childrenSrc = '';

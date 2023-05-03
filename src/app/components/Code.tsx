@@ -12,7 +12,7 @@ export function Code(props: { lang: string; children: ReactNode }): JSX.Element 
     <RootDiv>
       <PreDiv>
         <pre style={{ width: '100%' }}>
-          <code style={{ width: '100%' }} ref={codeRef} className={`language-${props.lang}`}>
+          <code ref={codeRef} className={`language-${props.lang}`}>
             {props.children}
           </code>
         </pre>

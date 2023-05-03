@@ -39,15 +39,8 @@ function App() {
     const clean = addEventListener('convert-component' as any, (msg: any) => {
       const imageHashMap = msg.imageHashMap;
       const svgMap = msg.svgMap;
-      let src = prettier.format(msg.src, {
-        parser: 'typescript',
-        plugins: prettierPlugins,
-      });
-      let html = prettier.format(msg.html, {
-        parser: 'html',
-        plugins: prettierPlugins,
-      });
-
+      let src = msg.src;
+      let html = msg.html;
       Object.keys(imageHashMap).forEach((k) => {
         const v = imageHashMap[k];
         const blob = new Blob([v]);
@@ -60,6 +53,15 @@ function App() {
         const text = new TextDecoder('utf-8').decode(v);
         src = src.replace(k, text);
         html = html.replace(k, text);
+      });
+
+      src = prettier.format(src, {
+        parser: 'typescript',
+        plugins: prettierPlugins,
+      });
+      html = prettier.format(html, {
+        parser: 'html',
+        plugins: prettierPlugins,
       });
 
       setReactSrc(src);
