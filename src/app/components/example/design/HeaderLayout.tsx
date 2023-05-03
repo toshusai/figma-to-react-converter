@@ -1,10 +1,8 @@
+// This code is generated.
+
 import React from 'react';
 import styled from 'styled-components';
 import { TextButton } from './TextButton';
-
-type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
-  ref?: React.Ref<T>;
-};
 
 export type HeaderLayoutProps = {
   property1?: string;
@@ -25,23 +23,19 @@ export function HeaderLayout(props: HeaderLayoutProps) {
 
 const StyledRight = styled.div`
   display: flex;
-  flex-direction: row;
-  padding: 0px;
   position: relative;
-  border-radius: 0px;
   overflow: hidden;
-  align-items: flex-start;
-  justify-content: flex-start;
 `;
 
 const StyledHeaderLayout = styled.div`
   display: flex;
-  flex-direction: row;
   gap: 16px;
   padding: 4px 16px;
   position: relative;
-  border-radius: 0px;
   overflow: hidden;
   align-items: center;
-  justify-content: flex-start;
 `;
+
+type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
+  ref?: React.Ref<T>;
+};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabButton } from '../design/Tab';
+import { TabButton } from '../design/TabButton';
 
 type TabsProps = {
   tabs: string[];

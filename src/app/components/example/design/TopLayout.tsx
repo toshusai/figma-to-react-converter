@@ -1,29 +1,24 @@
-import React from "react";
-import styled from "styled-components";
-import { TextButton } from "./TextButton";
+// This code is generated.
 
-type StyledProps<T> = Omit<
-  React.DetailedHTMLProps<React.HTMLAttributes<T>, T>,
-  "children" | "ref"
-> & {
-  ref?: React.Ref<T>;
-};
+import React from 'react';
+import styled from 'styled-components';
+import { TextButton } from './TextButton';
 
 export type TopLayoutProps = {
   textButtonProps?: Parameters<typeof TextButton>[0];
   children?: React.ReactNode;
   styledRightProps?: StyledProps<HTMLDivElement>;
-  styledFrame30Props?: StyledProps<HTMLDivElement>;
+  styledRootProps?: StyledProps<HTMLDivElement>;
   styledTopLayoutProps?: StyledProps<HTMLDivElement>;
 };
 
 export function TopLayout(props: TopLayoutProps) {
   return (
     <StyledTopLayout {...props.styledTopLayoutProps}>
-      <StyledFrame30 {...props.styledFrame30Props}>
+      <StyledRoot {...props.styledRootProps}>
         <TextButton {...props.textButtonProps} />
         <StyledRight {...props.styledRightProps}>{props.children}</StyledRight>
-      </StyledFrame30>
+      </StyledRoot>
     </StyledTopLayout>
   );
 }
@@ -34,7 +29,7 @@ const StyledRight = styled.div`
   overflow: hidden;
 `;
 
-const StyledFrame30 = styled.div`
+const StyledRoot = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -54,3 +49,7 @@ const StyledTopLayout = styled.div`
   position: relative;
   overflow: hidden;
 `;
+
+type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
+  ref?: React.Ref<T>;
+};

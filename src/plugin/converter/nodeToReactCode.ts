@@ -5,6 +5,8 @@ export function isChildrenName(name: string) {
   return name.match(/^props\.[a-zA-Z0-9]*(c|C)hildren$/) !== null;
 }
 
+const GENERETED_CODE_COMMENT = `// This code is generated.`;
+
 export function nodeToReactCode(node: ComponentSetNode) {
   const componentNodes: ComponentNode[] = [];
   node.children.forEach((node) => {
@@ -35,32 +37,33 @@ export function nodeToReactCode(node: ComponentSetNode) {
 
   const componentName = node.name ?? 'Component';
 
-  const src = `
-  import React from 'react';
-  import styled from 'styled-components';
-  ${ctx.imports.join('\n')}
-  
-  type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
+  const src = `${GENERETED_CODE_COMMENT}
+
+import React from 'react';
+import styled from 'styled-components';
+${ctx.imports.join('\n')}
+
+
+${
+  props.length > 0
+    ? `export type ${componentName}Props = {
+    ${props.map((p) => `${p.name}?: ${p.type}`).join('\n')}
+} `
+    : ''
+}
+
+export function ${componentName}(${ctx.props.length > 0 ? `props: ${componentName}Props` : ''}) {
+    return (
+        ${jsx}
+    )
+}
+
+${ctx.styled.join('\n')}
+
+type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
     ref?: React.Ref<T>;
-  };
-  
-  ${
-    props.length > 0
-      ? `export type ${componentName}Props = {
-      ${props.map((p) => `${p.name}?: ${p.type}`).join('\n')}
-  } `
-      : ''
-  }
-  
-  export function ${componentName}(${ctx.props.length > 0 ? `props: ${componentName}Props` : ''}) {
-      return (
-          ${jsx}
-      )
-  }
-  
-  ${ctx.styled.join('\n')}
-  
-  `;
+};
+`;
 
   return src;
 }

@@ -1,9 +1,7 @@
+// This code is generated.
+
 import React from 'react';
 import styled from 'styled-components';
-
-type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
-  ref?: React.Ref<T>;
-};
 
 export type TabButtonProps = {
   text?: string;
@@ -30,9 +28,7 @@ const StyledText = styled.div`
 
 const StyledTabButton = styled.button<{ $selected?: string }>`
   display: flex;
-  flex-direction: row;
   position: relative;
-  border-radius: 0px;
   overflow: hidden;
   border-top: #000000ff 0px solid;
   border-right: #000000ff 0px solid;
@@ -44,6 +40,8 @@ const StyledTabButton = styled.button<{ $selected?: string }>`
       : undefined;
   }};
   border-left: #000000ff 0px solid;
-  align-items: flex-start;
-  justify-content: flex-start;
 `;
+
+type StyledProps<T> = Omit<React.DetailedHTMLProps<React.HTMLAttributes<T>, T>, 'children' | 'ref'> & {
+  ref?: React.Ref<T>;
+};
