@@ -15,6 +15,12 @@ This project is experimental and under development. There may be missing feature
 
 ## How to Use
 
+Do a development build and add the plugin from the Figma app.
+
+```
+yarn build:watch
+```
+
 - Select the ComponentSet element you want to convert in Figma and press the Create button.
 - If you want to use the text property, add the text property to the component.
 - If you want to use ReactNode as a child element, name the node to match the regular expression `/^props\.[a-zA-Z0-9]*[0-9]*(c|C)hildren)$/` (e.g. `props.children`, `props.headerChildren`).

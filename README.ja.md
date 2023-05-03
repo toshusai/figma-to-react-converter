@@ -16,7 +16,13 @@ figma to React Converter は figma で作られたコンポーネントを React
 
 ## 使い方
 
-- figma で変換したいComponentSet要素を選択し、Create ボタンを押してください。
+開発ビルドをして Figma アプリよりプラグインを追加してください。
+
+```
+yarn build:watch
+```
+
+- figma で変換したい ComponentSet 要素を選択し、Create ボタンを押してください。
 - テキストプロパティを使用したい場合はコンポーネントにテキストプロパティを追加してください。
 - ReactNode を子要素にしたい場合はノードの名前を`/^props\.[a-zA-Z0-9]*[0-9]*(c|C)hildren)$/`の正規表現満たす名前にしてください（例：`props.chidlren`, `props.headerChildren`）
 
