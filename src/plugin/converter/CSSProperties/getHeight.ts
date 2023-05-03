@@ -5,6 +5,8 @@ export function getHeight(node: SceneNode): CSSProperties {
   if (node.type === 'RECTANGLE') {
     return {
       height: `${node.height}px`,
+      minHeight: `${node.height}px`,
+      maxHeight: `${node.height}px`,
     };
   }
   if (node.type !== 'INSTANCE' && node.type !== 'FRAME' && node.type !== 'COMPONENT') return {};
