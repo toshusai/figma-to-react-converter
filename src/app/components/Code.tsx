@@ -12,11 +12,13 @@ export function Code(props: { lang: string; children: ReactNode }): JSX.Element 
     <RootDiv>
       <PreDiv>
         <pre style={{ width: '100%' }}>
-          <code 
-          style={{
-            minWidth: "512px"
-          }}
-          ref={codeRef} className={`language-${props.lang}`}>
+          <code
+            style={{
+              minWidth: '512px',
+            }}
+            ref={codeRef}
+            className={`language-${props.lang}`}
+          >
             {props.children}
           </code>
         </pre>
@@ -33,7 +35,7 @@ const PreDiv = styled.div`
   position: relative;
   display: flex;
   width: 512px;
-  height: 371px; // 512px (window height) - 64px (design header) - 77px (window header)
+  height: 448px; // 512px (window height) - 64px (design header)
   overflow: auto;
 `;
 
