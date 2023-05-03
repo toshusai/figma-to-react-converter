@@ -24,6 +24,8 @@ export function getWidth(node: SceneNode): CSSProperties {
   ) {
     return {
       width: `${node.width}px`,
+      minWidth: `${node.width}px`,
+      maxWidth: `${node.width}px`,
     };
   }
   return {};

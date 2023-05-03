@@ -24,6 +24,8 @@ export function getHeight(node: SceneNode): CSSProperties {
   ) {
     return {
       height: `${node.height}px`,
+      minHeight: `${node.height}px`,
+      maxHeight: `${node.height}px`,
     };
   }
   return {};
