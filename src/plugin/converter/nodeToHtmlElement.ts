@@ -9,5 +9,8 @@ export function nodeToHtmlElement(node: AvaiableNode) {
   if (name.endsWith('Button')) {
     return 'button';
   }
+  if (name.endsWith('Image')) {
+    return 'img';
+  }
   return 'div';
 }

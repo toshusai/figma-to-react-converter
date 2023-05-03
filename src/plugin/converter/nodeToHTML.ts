@@ -55,6 +55,9 @@ export function nodeToTag(node: AvaiableNode, ctx: Context) {
   ctx.styled.push(css);
 
   const tag = nodeToHtmlElement(node);
+  if (['img'].includes(tag)) {
+    return `<${tag} ${attrsString} />`;
+  }
   return `<${tag} ${attrsString}>${children}</${tag}>`;
 }
 
