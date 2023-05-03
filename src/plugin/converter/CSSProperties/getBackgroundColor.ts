@@ -1,8 +1,9 @@
 import { CSSProperties } from 'react';
 import { rgbColorToHex } from '../../utils/rgbColorToHex';
 import { isMixed } from '../../utils/types/isMixed';
+import { promises } from '../nodeToHTML';
 
-export const imageHashMap = new Map<string, string | null>();
+export const imageHashMap = new Map<string, Uint8Array>();
 
 export function getBackgroundColor(node: SceneNode): CSSProperties {
   if (node.type === 'TEXT') {
@@ -20,17 +21,34 @@ export function getBackgroundColor(node: SceneNode): CSSProperties {
         backgroundColor: rgbColorToHex(fill.color, fill.opacity !== undefined ? fill.opacity : 1),
       };
     } else if (fill.type === 'IMAGE') {
-      if (fill.imageHash) {
-        if (!imageHashMap.has(fill.imageHash)) {
-          imageHashMap.set(fill.imageHash, null);
+      const promise = new Promise((resolve, reject) => {
+        if (fill.imageHash != null) {
+          figma
+            .getImageByHash(fill.imageHash)
+            ?.getBytesAsync()
+            .then((bytes) => {
+              if (fill.imageHash == null) {
+                reject('fill.imageHash is null');
+                return;
+              }
+              imageHashMap.set(fill.imageHash, bytes);
+              resolve(true);
+            })
+            .catch((e) => {
+              reject(e);
+            });
+        } else {
+          resolve(true);
         }
+      });
 
-        return {
-          // backgroundImage: `url(${fill.imageHash})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        };
-      }
+      promises.push(promise);
+
+      return {
+        backgroundImage: `url(${fill.imageHash})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      };
     }
   }
   return {};

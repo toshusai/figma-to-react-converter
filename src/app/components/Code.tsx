@@ -11,8 +11,8 @@ export function Code(props: { lang: string; children: ReactNode }): JSX.Element 
   return (
     <RootDiv>
       <PreDiv>
-        <pre>
-          <code ref={codeRef} className={`language-${props.lang}`}>
+        <pre style={{ width: '100%' }}>
+          <code style={{ width: '100%' }} ref={codeRef} className={`language-${props.lang}`}>
             {props.children}
           </code>
         </pre>

@@ -37,15 +37,32 @@ function App() {
 
   useEffect(() => {
     const clean = addEventListener('convert-component' as any, (msg: any) => {
-      const src = prettier.format(msg.src, {
+      const imageHashMap = msg.imageHashMap;
+      const svgMap = msg.svgMap;
+      let src = prettier.format(msg.src, {
         parser: 'typescript',
         plugins: prettierPlugins,
       });
-      setReactSrc(src);
-      const html = prettier.format(msg.html, {
+      let html = prettier.format(msg.html, {
         parser: 'html',
         plugins: prettierPlugins,
       });
+
+      Object.keys(imageHashMap).forEach((k) => {
+        const v = imageHashMap[k];
+        const blob = new Blob([v]);
+        const url = URL.createObjectURL(blob);
+        src = src.replace(k, url);
+        html = html.replace(k, url);
+      });
+      Object.keys(svgMap).forEach((k) => {
+        const v = svgMap[k];
+        const text = new TextDecoder('utf-8').decode(v);
+        src = src.replace(k, text);
+        html = html.replace(k, text);
+      });
+
+      setReactSrc(src);
       setHtmlSrc(html);
     });
     return () => {

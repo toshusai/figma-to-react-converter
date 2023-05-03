@@ -5,6 +5,10 @@ import { nodeToCSSProperties } from './nodeToCSSProperties';
 import { nodeToStyledComponentsName } from './nodeToStyledComponentsName';
 import { nodeToHtmlElement } from './nodeToHtmlElement';
 
+export const promises: Promise<any>[] = [];
+
+export const svgMap = new Map<string, Uint8Array>();
+
 export function nodeToHTML(node: ComponentSetNode) {
   if (node.children.length == 0) throw new Error('nodeToHTML: node.children.length == 0');
   const mainNode = node.children[0];
@@ -36,6 +40,12 @@ export function nodeToTag(node: AvaiableNode, ctx: Context) {
       .join('\n');
   } else if (node.type === 'TEXT') {
     children = node.characters;
+  } else if (node.type === 'VECTOR') {
+    const promise = node.exportAsync({ format: 'SVG' }).then((svg) => {
+      svgMap.set(node.id, svg);
+    });
+    promises.push(promise);
+    return `${node.id}`;
   }
 
   const className = nodeToStyledComponentsName(node);
