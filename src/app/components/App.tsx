@@ -90,9 +90,7 @@ function App() {
               }}
             />
           </div>
-          <div style={{ display: 'flex', height: 'calc(100% - 32px)', overflow: 'auto' }}>
-            {type === 'react' && <Code lang="typescript">{reactSrc}</Code>}
-          </div>
+          {type === 'react' && <Code lang="typescript">{reactSrc}</Code>}
         </>
       )}
     </div>

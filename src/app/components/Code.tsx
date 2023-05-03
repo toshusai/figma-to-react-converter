@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useRef } from 'react';
 import hljs from 'highlight.js';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export function Code(props: { lang: string; children: ReactNode }): JSX.Element {
   useEffect(() => {
@@ -9,18 +9,29 @@ export function Code(props: { lang: string; children: ReactNode }): JSX.Element 
   const codeRef = useRef<HTMLElement>(null);
 
   return (
-    <pre
-      style={{
-        position: 'relative',
-      }}
-    >
+    <RootDiv>
+      <PreDiv>
+        <pre>
+          <code ref={codeRef} className={`language-${props.lang}`}>
+            {props.children}
+          </code>
+        </pre>
+      </PreDiv>
       <CopyButton codeRef={codeRef} />
-      <code ref={codeRef} className={`language-${props.lang}`}>
-        {props.children}
-      </code>
-    </pre>
+    </RootDiv>
   );
 }
+const RootDiv = styled.div`
+  position: relative;
+`;
+
+const PreDiv = styled.div`
+  position: relative;
+  display: flex;
+  width: 512px;
+  height: 450px;
+  overflow: auto;
+`;
 
 const CopyButton = (props: { codeRef?: React.RefObject<HTMLElement> }) => {
   const [isCopied, setIsCopied] = React.useState(false);
@@ -44,7 +55,7 @@ const CopyButton = (props: { codeRef?: React.RefObject<HTMLElement> }) => {
 const StyledCopyButton = styled.button`
   position: absolute;
   top: 0;
-  right: 0;
+  right: 15px; // scroll bar width
   border: none;
   background: none;
   color: white;
