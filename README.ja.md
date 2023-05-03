@@ -13,11 +13,10 @@ figma to React Converter は figma で作られたコンポーネントを React
 - React コンポーネントへの変換
 - テキスト(string)プロパティの作成
 - children(ReactNode)プロパティの作成
-- boolean による表示、非表示の分岐
 
 ## 使い方
 
-- figma で変換したいコンポーネント要素を選択し、Create ボタンを押してください。
+- figma で変換したいComponentSet要素を選択し、Create ボタンを押してください。
 - テキストプロパティを使用したい場合はコンポーネントにテキストプロパティを追加してください。
 - ReactNode を子要素にしたい場合はノードの名前を`/^props\.[a-zA-Z0-9]*[0-9]*(c|C)hildren)$/`の正規表現満たす名前にしてください（例：`props.chidlren`, `props.headerChildren`）
 
