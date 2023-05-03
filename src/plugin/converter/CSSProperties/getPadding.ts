@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { isChildrenName } from '../nodeToReactCode';
+import { isChildrenName } from "../isChildrenName";
 
 export function getPadding(
   node: FrameNode | InstanceNode | RectangleNode | TextNode,

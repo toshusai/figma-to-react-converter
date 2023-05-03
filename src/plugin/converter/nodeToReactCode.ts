@@ -1,9 +1,6 @@
 import { toCamelCase } from 'js-convert-case';
 import { nodesToJSX } from './nodesToJSX';
 import { Context } from './Context';
-export function isChildrenName(name: string) {
-  return name.match(/^props\.[a-zA-Z0-9]*(c|C)hildren$/) !== null;
-}
 
 const GENERETED_CODE_COMMENT = `// This code is generated.`;
 

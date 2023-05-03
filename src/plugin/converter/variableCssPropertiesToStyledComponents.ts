@@ -1,7 +1,7 @@
 import { CSSProperties } from 'styled-components';
 import { toKebabCase } from 'js-convert-case';
 import { nodeToStyledComponentsName } from './nodeToStyledComponentsName';
-import { nodeToHtmlElement } from './nodeToHtmlElement';
+import { nodeToTagName } from './nodeToTagName';
 import { AvaiableNode } from './AvaiableNode';
 import { findParantConponentNode } from './findParantConponentNode';
 
@@ -22,7 +22,7 @@ export function variableCssPropertiesToStyledComponents(
   const name = nodeToStyledComponentsName(node);
   const componentNode = findParantConponentNode(node);
   if (!componentNode) throw new Error('variableCssPropertiesToStyledComponents: componentNode is null');
-  return `const ${name} = styled.${nodeToHtmlElement(node)}<PROPS>\`
+  return `const ${name} = styled.${nodeToTagName(node)}<PROPS>\`
 ${Object.entries(variantCSSProperties)
   .map(([cssStyleName, variant2ValueMap]) => {
     const sameValue = Object.values(variant2ValueMap).every((value) => value === Object.values(variant2ValueMap)[0]);

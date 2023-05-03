@@ -1,6 +1,6 @@
 import { nodeToCSSProperties } from './nodeToCSSProperties';
 import { toCamelCase, toKebabCase, toPascalCase } from 'js-convert-case';
-import { isChildrenName } from './nodeToReactCode';
+import { isChildrenName } from './isChildrenName';
 import { AvaiableNode } from './AvaiableNode';
 import { Context } from './Context';
 import { findParantConponentNode } from './findParantConponentNode';
@@ -8,9 +8,9 @@ import {
   VariableCSSProperties,
   variableCssPropertiesToStyledComponents,
 } from './variableCssPropertiesToStyledComponents';
-import { nodeToHtmlElement } from './nodeToHtmlElement';
+import { nodeToTagName } from './nodeToTagName';
 import { nodeToStyledComponentsName } from './nodeToStyledComponentsName';
-import { promises, svgMap } from './nodeToHTML';
+import { promises, svgMap } from './global';
 
 export function nodesToJSX(nodes: AvaiableNode[], ctx: Context) {
   const sameChildrenCount = nodes.every((node) => {
@@ -113,7 +113,7 @@ export function nodesToJSX(nodes: AvaiableNode[], ctx: Context) {
 
   ctx.props.push({
     name: toCamelCase(nodeName) + 'Props',
-    type: `StyledProps<HTML${toPascalCase(nodeToHtmlElement(mainNode))}Element>`,
+    type: `StyledProps<HTML${toPascalCase(nodeToTagName(mainNode))}Element>`,
   });
 
   // drop deplicated keys

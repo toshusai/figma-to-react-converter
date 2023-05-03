@@ -1,9 +1,7 @@
 import { CSSProperties } from 'react';
 import { rgbColorToHex } from '../../utils/rgbColorToHex';
 import { isMixed } from '../../utils/types/isMixed';
-import { promises } from '../nodeToHTML';
-
-export const imageHashMap = new Map<string, Uint8Array>();
+import { imageHashMap, promises } from '../global';
 
 export function getBackgroundColor(node: SceneNode): CSSProperties {
   if (node.type === 'TEXT') {

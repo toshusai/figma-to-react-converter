@@ -1,5 +1,5 @@
-import { imageHashMap } from './converter/CSSProperties/getBackgroundColor';
-import { nodeToHTML, promises, svgMap } from './converter/nodeToHTML';
+import { imageHashMap, promises, svgMap } from './converter/global';
+import { nodeToHTML } from './converter/nodeToHTML';
 import { nodeToReactCode } from './converter/nodeToReactCode';
 
 figma.showUI(__html__);

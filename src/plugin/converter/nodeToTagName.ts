@@ -1,6 +1,6 @@
 import { AvaiableNode } from './AvaiableNode';
 
-export function nodeToHtmlElement(node: AvaiableNode) {
+export function nodeToTagName(node: AvaiableNode) {
   let name = node.name;
   if (node.type === 'COMPONENT') {
     name = node.parent?.name || '';
