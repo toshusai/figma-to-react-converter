@@ -33,7 +33,7 @@ const PreDiv = styled.div`
   position: relative;
   display: flex;
   width: 512px;
-  height: 450px;
+  height: 371px; // 512px (window height) - 64px (design header) - 77px (window header)
   overflow: auto;
 `;
 
