@@ -6,6 +6,7 @@ import { MessageType } from '../../plugin/types';
 import { Code } from './Code';
 import { Header } from './example/view/Header';
 import { TextButton } from './example/design/TextButton';
+import { Preview } from './Preview';
 declare const prettierPlugins: any;
 
 function send(type: MessageType, message: any) {
@@ -31,16 +32,21 @@ function App() {
   };
 
   const [reactSrc, setReactSrc] = useState('');
+  const [htmlSrc, setHtmlSrc] = useState('');
   const [type, setType] = useState<'css' | 'html' | 'react' | 'preview'>('react');
 
   useEffect(() => {
     const clean = addEventListener('convert-component' as any, (msg: any) => {
-      console.log(msg);
       const src = prettier.format(msg.src, {
         parser: 'typescript',
         plugins: prettierPlugins,
       });
       setReactSrc(src);
+      const html = prettier.format(msg.html, {
+        parser: 'html',
+        plugins: prettierPlugins,
+      });
+      setHtmlSrc(html);
     });
     return () => {
       clean();
@@ -91,6 +97,7 @@ function App() {
             />
           </div>
           {type === 'react' && <Code lang="typescript">{reactSrc}</Code>}
+          {type === 'html' && <Preview html={htmlSrc}></Preview>}
         </>
       )}
     </div>

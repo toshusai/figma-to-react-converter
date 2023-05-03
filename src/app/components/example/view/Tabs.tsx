@@ -9,7 +9,7 @@ type TabsProps = {
 
 export function Tabs(props: TabsProps) {
   return (
-    <div className="tabs">
+    <>
       {props.tabs.map((item) => (
         <TabButton
           key={item}
@@ -20,6 +20,6 @@ export function Tabs(props: TabsProps) {
           text={item}
         ></TabButton>
       ))}
-    </div>
+    </>
   );
 }

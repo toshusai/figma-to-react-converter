@@ -2,7 +2,7 @@ import React from 'react';
 import { HeaderLayout } from '../design/HeaderLayout';
 import { Tabs } from './Tabs';
 
-const tabs = ['React'];
+const tabs = ['React', 'HTML'];
 type HeaderProps = {
   onClickButton: () => void;
   onChangeTab: (tab: string) => void;

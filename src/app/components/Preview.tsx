@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Preview(props: { html: string; css: string; }) {
+export function Preview(props: { html: string }) {
   return (
     <div style={{ display: 'flex', height: '100%', width: '100%' }}>
       <div
@@ -11,7 +11,6 @@ export function Preview(props: { html: string; css: string; }) {
           position: 'relative',
         }}
       >
-        <style>{props.css}</style>
         <div dangerouslySetInnerHTML={{ __html: props.html }}></div>
       </div>
     </div>

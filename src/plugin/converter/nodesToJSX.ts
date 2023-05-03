@@ -59,6 +59,7 @@ export function nodesToJSX(nodes: AvaiableNode[], ctx: Context) {
 
   if (mainNode.type === 'INSTANCE') {
     const attrsString = Object.entries(mainNode.componentProperties)
+      .filter(([key, _]) => !key)
       .map(([key, value]) => {
         return `${toKebabCase(key.split('#')[0])}="${value.value}"`;
       })

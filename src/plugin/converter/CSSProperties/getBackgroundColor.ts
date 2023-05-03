@@ -26,7 +26,7 @@ export function getBackgroundColor(node: SceneNode): CSSProperties {
         }
 
         return {
-          backgroundImage: `url(${fill.imageHash})`,
+          // backgroundImage: `url(${fill.imageHash})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         };
