@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useRef } from 'react';
 import hljs from 'highlight.js';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export function Code(props: { lang: string; children: ReactNode }): JSX.Element {
   useEffect(() => {
