@@ -42,38 +42,48 @@ function App() {
 
   useEffect(() => {
     const clean = addEventListener('convert-component' as any, (msg: any) => {
-      const imageHashMap = msg.imageHashMap;
-      const svgMap = msg.svgMap;
-      let src = msg.src;
-      let html = msg.html;
-      Object.keys(imageHashMap).forEach((k) => {
-        const v = imageHashMap[k];
-        const blob = new Blob([v]);
-        const url = URL.createObjectURL(blob);
-        src = src.replace(k, url);
-        html = html.replace(k, url);
-      });
-      Object.keys(svgMap).forEach((k) => {
-        const v = svgMap[k];
-        const text = new TextDecoder('utf-8').decode(v);
-        src = src.replace(k, text);
-        html = html.replace(k, text);
-      });
+      try {
+        const imageHashMap = msg.imageHashMap;
+        const svgMap = msg.svgMap;
+        let src = msg.src;
+        let html = msg.html;
+        Object.keys(imageHashMap).forEach((k) => {
+          const v = imageHashMap[k];
+          const blob = new Blob([v]);
+          const url = URL.createObjectURL(blob);
+          src = src.replace(k, url);
+          html = html.replace(k, url);
+        });
+        Object.keys(svgMap).forEach((k) => {
+          const v = svgMap[k];
+          const text = new TextDecoder('utf-8').decode(v);
+          src = src.replace(k, text);
+          html = html.replace(k, text);
+        });
 
-      src = prettier.format(src, {
-        parser: 'typescript',
-        plugins: prettierPlugins,
-      });
-      html = prettier.format(html, {
-        parser: 'html',
-        plugins: prettierPlugins,
-      });
+        try {
+          src = prettier.format(src, {
+            parser: 'typescript',
+            plugins: prettierPlugins,
+          });
+          html = prettier.format(html, {
+            parser: 'html',
+            plugins: prettierPlugins,
+          });
+        } catch (e) {}
 
-      setReactSrc(src);
-      setHtmlSrc(html);
+        setReactSrc(src);
+        setHtmlSrc(html);
+      } catch (e: any) {
+        console.error(e);
+        setError(JSON.stringify(msg));
+        setReactSrc('');
+        setHtmlSrc('');
+      }
     });
     const cleanError = addEventListener('error' as any, (msg: any) => {
-      setError(msg);
+      console.error(msg);
+      setError(JSON.stringify(msg));
     });
     return () => {
       clean();

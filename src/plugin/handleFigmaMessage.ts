@@ -38,7 +38,7 @@ export async function handleFigmaMessage(msg) {
   } catch (e: any) {
     figma.ui.postMessage({
       type: 'error',
-      message: 'toStinrg' in e ? e.toString() : e,
+      message: 'message' in e ? e.message : e,
     });
   }
 }
