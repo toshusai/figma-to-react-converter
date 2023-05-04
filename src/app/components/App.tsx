@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import 'highlight.js/styles/vs2015.css';
 
-import type prettier from 'prettier';
 import { MessageType } from '../../plugin/types';
 import { Code } from './Code';
 import { Header } from './example/view/Header';
 import { Preview } from './Preview';
 import { TopLayout } from './example/design/TopLayout';
 declare const prettierPlugins: any;
+declare const prettier: any;
 
 function send(type: MessageType, message: any) {
   parent.postMessage({ pluginMessage: { type, message } }, '*');
