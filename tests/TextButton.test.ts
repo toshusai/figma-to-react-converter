@@ -41,10 +41,10 @@ const componentSetNode: Subset<ComponentSetNode> = {
           ],
         },
       ],
-      paddingBottom: undefined,
-      paddingLeft: undefined,
-      paddingRight: undefined,
-      paddingTop: undefined,
+      paddingBottom: 0,
+      paddingLeft: 0,
+      paddingRight: 0,
+      paddingTop: 0,
     },
   ],
 };
@@ -61,7 +61,6 @@ test('box', () => {
   .StyledText {
     position: relative;
     color: #ff0000ff;
-    margin: undefinedpx;
   }
   .StyledComponent {
     position: relative;
