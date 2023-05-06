@@ -10,23 +10,29 @@ export function getWidth(node: SceneNode): CSSProperties {
     };
   }
   if (node.type !== 'INSTANCE' && node.type !== 'FRAME' && node.type !== 'COMPONENT') return {};
-  if (
-    (node.layoutAlign === 'STRETCH' && node.layoutMode === 'HORIZONTAL') ||
-    (node.layoutGrow === 1 && node.layoutMode === 'VERTICAL')
-  ) {
+  if (node.layoutAlign === 'STRETCH') {
     return {
       width: '100%',
     };
   }
-  if (
-    (node.layoutMode === 'HORIZONTAL' && node.primaryAxisSizingMode === 'FIXED') ||
-    (node.layoutMode === 'VERTICAL' && node.counterAxisSizingMode === 'FIXED')
-  ) {
-    return {
-      width: `${node.width}px`,
-      minWidth: `${node.width}px`,
-      maxWidth: `${node.width}px`,
-    };
+  if (node.layoutMode === 'HORIZONTAL') {
+    if (node.primaryAxisSizingMode === 'FIXED') {
+      return {
+        width: `${node.width}px`,
+        minWidth: `${node.width}px`,
+        maxWidth: `${node.width}px`,
+      };
+    }
+  }
+  if (node.layoutMode === 'VERTICAL') {
+    if (node.counterAxisSizingMode === 'FIXED') {
+      return {
+        width: `${node.width}px`,
+        minWidth: `${node.width}px`,
+        maxWidth: `${node.width}px`,
+      };
+    }
+    return {};
   }
   return {};
 }
