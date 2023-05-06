@@ -10,7 +10,7 @@ export function getWidth(node: SceneNode): CSSProperties {
     };
   }
   if (node.type !== 'INSTANCE' && node.type !== 'FRAME' && node.type !== 'COMPONENT') return {};
-  if (node.layoutAlign === 'STRETCH') {
+  if (node.layoutAlign === 'STRETCH' && node.primaryAxisSizingMode != 'AUTO') {
     return {
       width: '100%',
     };
