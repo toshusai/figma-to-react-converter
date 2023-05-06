@@ -45,20 +45,20 @@ function App() {
       try {
         const imageHashMap = msg.imageHashMap;
         const svgMap = msg.svgMap;
-        let src = msg.src;
-        let html = msg.html;
+        let src: string = msg.src;
+        let html: string = msg.html;
         Object.keys(imageHashMap).forEach((k) => {
           const v = imageHashMap[k];
           const blob = new Blob([v]);
           const url = URL.createObjectURL(blob);
-          src = src.replace(k, url);
-          html = html.replace(k, url);
+          src = src.replace(new RegExp(k, 'g'), url);
+          html = html.replace(new RegExp(k, 'g'), url);
         });
         Object.keys(svgMap).forEach((k) => {
           const v = svgMap[k];
           const text = new TextDecoder('utf-8').decode(v);
-          src = src.replace(k, text);
-          html = html.replace(k, text);
+          src = src.replace(new RegExp(k, 'g'), text);
+          html = html.replace(new RegExp(k, 'g'), text);
         });
 
         try {
