@@ -10,9 +10,8 @@ export function Preview(props: { html: string }) {
           outline: '1px solid rgba(255, 255, 255, 0.5)',
           position: 'relative',
         }}
-      >
-        <div dangerouslySetInnerHTML={{ __html: props.html }}></div>
-      </div>
+        dangerouslySetInnerHTML={{ __html: props.html }}
+      ></div>
     </div>
   );
 }
