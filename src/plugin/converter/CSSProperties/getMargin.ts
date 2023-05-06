@@ -14,5 +14,17 @@ export function getMargin(node: FrameNode | InstanceNode | RectangleNode | TextN
       };
     }
   }
+  if (node.parent) {
+    if ('primaryAxisAlignItems' in node.parent) {
+      if (node.parent.primaryAxisAlignItems === 'SPACE_BETWEEN') {
+        const index = node.parent.children.findIndex((child) => child.id === node.id);
+        if (index !== 0) {
+          return {
+            marginLeft: 'auto',
+          };
+        }
+      }
+    }
+  }
   return {};
 }
